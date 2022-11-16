@@ -55,7 +55,7 @@ public class Game implements EventHandler<ActionEvent> {
   }
 
   /**
-   * Handler function that is invoked based on the tick rate frequency.
+   * Handler method that is invoked based on the game update frequency.
    *
    * @param event a generic action event
    */
