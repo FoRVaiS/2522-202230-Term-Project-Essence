@@ -10,10 +10,10 @@ import javafx.animation.AnimationTimer;
  */
 public class Game extends AnimationTimer {
   /* Number of milliseconds in a second */
-  private final double msPerSecond = 1000.0;
+  private static final double msPerSecond = 1000.0;
 
   /* Number of nanoseconds per milliseconds */
-  private final double nanoPerMs = 1_000_000;
+  private static final double nanoPerMs = 1_000_000;
 
   /* Number of milliseconds per update tick */
   private final double msPerTick;
@@ -34,7 +34,7 @@ public class Game extends AnimationTimer {
    * @param tickrate frequency of game updates
    */
   public Game(final Window window, final int tickrate) {
-    this.msPerTick = this.msPerSecond / tickrate; // msPerSecond / ticksPerSecond
+    this.msPerTick = Game.msPerSecond / tickrate; // msPerSecond / ticksPerSecond
   }
 
   /**
@@ -45,7 +45,7 @@ public class Game extends AnimationTimer {
   @Override
   public void handle(final long now) {
     // The current time in milliseconds
-    final double currentTime = now / this.nanoPerMs;
+    final double currentTime = now / Game.nanoPerMs;
 
     // If this is the first call, set the last time to now (in ms)
     if (this.lastMsTime == -1) {
@@ -59,7 +59,7 @@ public class Game extends AnimationTimer {
     this.msElapsed += deltaMsTime;
 
     if (this.msElapsed >= this.msPerTick) {
-      final int fps = (int) Math.ceil(frames * this.msPerSecond / this.msElapsed);
+      final int fps = (int) Math.ceil(frames * Game.msPerSecond / this.msElapsed);
       System.out.println("[" + fps + " FPS]");
 
       // If the system lags and msElapsed is greater than the tick interval,
