@@ -24,6 +24,9 @@ public class Game extends AnimationTimer {
   /* Amount of time that has passed since the last update */
   private double msElapsed = 0;
 
+  /* The number of frames before the next update */
+  private double frames = 0;
+
   /**
    * Creates a new instance of the game.
    *
@@ -56,13 +59,16 @@ public class Game extends AnimationTimer {
     this.msElapsed += deltaMsTime;
 
     if (this.msElapsed >= this.msPerTick) {
-      System.out.println("Tick!");
+      final int fps = (int) Math.ceil(frames * this.msPerSecond / this.msElapsed);
+      System.out.println("[" + fps + " FPS]");
 
       // If the system lags and msElapsed is greater than the tick interval,
       // only remove enough time to allow for another update to happen
       this.msElapsed -= this.msPerTick;
+      this.frames = 0;
     }
 
+    this.frames++;
     this.lastMsTime = currentTime;
   }
 }
