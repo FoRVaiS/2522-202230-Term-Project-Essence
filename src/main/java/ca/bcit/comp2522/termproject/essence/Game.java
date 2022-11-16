@@ -34,6 +34,7 @@ public class Game extends AnimationTimer {
    * @param tickrate frequency of game updates
    */
   public Game(final Window window, final int tickrate) {
+    super();
     this.msPerTick = Game.msPerSecond / tickrate; // msPerSecond / ticksPerSecond
   }
 
