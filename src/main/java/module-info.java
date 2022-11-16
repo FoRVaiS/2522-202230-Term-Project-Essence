@@ -1,4 +1,5 @@
 module ca.bcit.comp2522.termproject.essence {
+    requires transitive javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
 
