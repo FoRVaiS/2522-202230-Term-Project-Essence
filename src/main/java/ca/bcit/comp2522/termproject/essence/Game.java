@@ -30,7 +30,7 @@ public class Game implements EventHandler<ActionEvent> {
   /**
    * Creates a game loop.
    *
-   * @param tickrate
+   * @param tickrate frequency of game updates
    */
   private void startGameLoop(final int tickrate) {
     final int milliPerSecond = 1000; // ms / second
