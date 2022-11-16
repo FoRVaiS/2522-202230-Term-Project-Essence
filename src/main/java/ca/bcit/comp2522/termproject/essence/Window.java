@@ -1,9 +1,8 @@
 package ca.bcit.comp2522.termproject.essence;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -27,13 +26,16 @@ public class Window extends Application {
         stage.setTitle("Essence");
         stage.setScene(new Scene(new Group()));
         stage.show();
+
         stage.getScene().setOnKeyPressed((final KeyEvent event) -> {
-            if (event.getCode().equals(KeyCode.P)){
+            if (event.getCode().equals(KeyCode.P)) {
                 Platform.exit();
             }
         });
+
         final int tickrate = 120;
-        final EventHandler<ActionEvent> game = new Game(this, tickrate);
+        final AnimationTimer game = new Game(this, tickrate);
+        game.start();
     }
 
     /**
