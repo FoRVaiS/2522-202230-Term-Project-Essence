@@ -1,10 +1,6 @@
 package ca.bcit.comp2522.termproject.essence;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.util.Duration;
+import javafx.animation.AnimationTimer;
 
 /**
  * Manages and updates game components.
@@ -12,8 +8,21 @@ import javafx.util.Duration;
  * @author Benjamin Chiang
  * @version 0.1.0
  */
-public class Game implements EventHandler<ActionEvent> {
-  private final Timeline gameLoop;
+public class Game extends AnimationTimer {
+  /* Number of milliseconds in a second */
+  private final double msPerSecond = 1000.0;
+
+  /* Number of nanoseconds per milliseconds */
+  private final double nanoPerMs = 1_000_000;
+
+  /* Number of milliseconds per update tick */
+  private final double msPerTick;
+
+  /* Time of when the last update was processed */
+  private double lastMsTime = -1;
+
+  /* Amount of time that has passed since the last update */
+  private double msElapsed = 0;
 
   /**
    * Creates a new instance of the game.
@@ -22,45 +31,38 @@ public class Game implements EventHandler<ActionEvent> {
    * @param tickrate frequency of game updates
    */
   public Game(final Window window, final int tickrate) {
-    this.gameLoop = new Timeline();
-
-    this.startGameLoop(tickrate);
+    this.msPerTick = this.msPerSecond / tickrate; // msPerSecond / ticksPerSecond
   }
 
   /**
-   * Creates a game loop.
+   * Handler method that is invoked as fast as possible.
    *
-   * @param tickrate frequency of game updates
-   */
-  private void startGameLoop(final int tickrate) {
-    final int milliPerSecond = 1000; // ms / second
-
-    // Update Frequency
-    final double msPerTick = milliPerSecond / tickrate;
-
-    // The amount of milliseconds per frame wrapped in a Duration object
-    final Duration msPerFrame = Duration.millis(msPerTick);
-
-    // Create a keyframe for the timeline
-    final KeyFrame frame = new KeyFrame(msPerFrame, this);
-
-    // Add the keyframe to the timeline
-    this.gameLoop.getKeyFrames().add(frame);
-
-    // Loop the timeline when it reaches the end
-    this.gameLoop.setCycleCount(Timeline.INDEFINITE);
-
-    // Start the timeline
-    this.gameLoop.play();
-  }
-
-  /**
-   * Handler method that is invoked based on the game update frequency.
-   *
-   * @param event a generic action event
+   * @param now current time in nano seconds
    */
   @Override
-  public void handle(final ActionEvent event) {
-    System.out.println("Tick!");
+  public void handle(final long now) {
+    // The current time in milliseconds
+    final double currentTime = now / this.nanoPerMs;
+
+    // If this is the first call, set the last time to now (in ms)
+    if (this.lastMsTime == -1) {
+      this.lastMsTime = currentTime;
+    }
+
+    // The amount of ms that has passed since the last call/invocation
+    final double deltaMsTime = currentTime - this.lastMsTime;
+
+    // Add the delta to elapsed ms
+    this.msElapsed += deltaMsTime;
+
+    if (this.msElapsed >= this.msPerTick) {
+      System.out.println("Tick!");
+
+      // If the system lags and msElapsed is greater than the tick interval,
+      // only remove enough time to allow for another update to happen
+      this.msElapsed -= this.msPerTick;
+    }
+
+    this.lastMsTime = currentTime;
   }
 }
