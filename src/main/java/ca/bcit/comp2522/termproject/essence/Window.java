@@ -17,6 +17,17 @@ import javafx.stage.Stage;
  * @version 0.1.0
  */
 public class Window extends Application {
+    private Group group;
+
+    /**
+     * Returns the current scene.
+     *
+     * @return current scene
+     */
+    public Group getSceneGroup() {
+        return this.group;
+    }
+
     /**
      * The start of the application.
      *
@@ -24,11 +35,13 @@ public class Window extends Application {
      */
     @Override
     public void start(final Stage stage) {
+        this.group = new Group();
+
         stage.setTitle("Essence");
-        stage.setScene(new Scene(new Group()));
+        stage.setScene(new Scene(this.group));
         stage.show();
         stage.getScene().setOnKeyPressed((final KeyEvent event) -> {
-            if (event.getCode().equals(KeyCode.P)){
+            if (event.getCode().equals(KeyCode.P)) {
                 Platform.exit();
             }
         });
