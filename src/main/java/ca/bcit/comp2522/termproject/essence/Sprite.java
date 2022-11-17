@@ -1,6 +1,7 @@
 package ca.bcit.comp2522.termproject.essence;
 
 import ca.bcit.comp2522.termproject.essence.interfaces.LogicComponent;
+import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -192,5 +193,14 @@ public abstract class Sprite implements LogicComponent {
     view.setScaleX(scale);
     view.setScaleY(scale);
     view.setRotate(radians);
+  }
+
+  /**
+   * Creates a brick tile sprite.
+   *
+   * @return an instance of the brick tile sprite
+   */
+  public static Sprite createBrickTile() {
+    return new BrickTileSprite();
   }
 }
