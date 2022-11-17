@@ -105,6 +105,61 @@ public class World implements LogicComponent {
   }
 
   /**
+   * A demo sprite that "walks" in a circle to load and unload chunks in the world.
+   *
+   * @author Benjamin Chiang
+   * @version 0.1.0
+   */
+  private class ChunkGeneratorDemo extends BrickTileSprite {
+    private final double increment = 0.01;
+    private final double radius = 700.0;
+
+    private double time = 0;
+
+    /**
+     * Creates a sprite used to demo the chunk generator.
+     */
+    ChunkGeneratorDemo() {
+      super();
+      this.update();
+    }
+
+    /**
+     * Renders the sprite if it has not already been added.
+     */
+    public void render() {
+      if (!sceneGroup.getChildren().contains(this.getView())) {
+        sceneGroup.getChildren().add(this.getView());
+      }
+    }
+
+    /**
+     * Updates the demo sprite's logic.
+     */
+    @Override
+    public void update() {
+      final int originX = (int) sceneGroup.getScene().getWidth() / 2;
+      final int originY = (int) sceneGroup.getScene().getHeight() / 2;
+
+      time += increment;
+
+      final double newPosX = Math.sin(time) * radius + originX;
+      final double newPosY = Math.cos(time) * radius + originY;
+
+      this.setPosition(newPosX, newPosY);
+
+      final double deltaX = newPosX - originX;
+      final double deltaY = newPosY - originY;
+      final double degrees = Math.atan(deltaY / deltaX) * 180 / Math.PI;
+
+      this.setRotation(degrees);
+
+      super.update();
+      this.render();
+    }
+  }
+
+  /**
    * Updates all logical components in the world.
    */
   @Override
