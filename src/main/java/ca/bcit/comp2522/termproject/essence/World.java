@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 public class World implements LogicComponent {
   private final HashMap<Integer, Chunk> chunks = new HashMap<>();
   private final ArrayList<LogicComponent> logicalChildren = new ArrayList<>();
+  private final ChunkGeneratorDemo demo;
 
   private final Group sceneGroup;
 
@@ -27,6 +28,7 @@ public class World implements LogicComponent {
    */
   public World(final Group sceneGroup) {
     this.sceneGroup = sceneGroup;
+    this.demo = new ChunkGeneratorDemo();
     this.update();
   }
 
@@ -38,7 +40,7 @@ public class World implements LogicComponent {
    * @param renderDistance distance around point to render chunks
    * @return Arraylist of chunks rendered in this cycle
    */
-  private ArrayList<Integer> updateChunks(final int posX, final int posY, final int renderDistance) {
+  private ArrayList<Integer> updateChunks(final double posX, final double posY, final int renderDistance) {
     final int tileSize = Sprite.TILE_SIZE;
     final int tilesInChunk = Chunk.CHUNK_SIZE;
     final int chunkLength = tileSize * tilesInChunk;
@@ -168,11 +170,10 @@ public class World implements LogicComponent {
       child.update();
     }
 
-    final int posX = (int) this.sceneGroup.getScene().getWidth() / 2;
-    final int posY = (int) this.sceneGroup.getScene().getHeight() / 2;
     final int renderDistance = 256;
+    demo.update();
 
-    ArrayList<Integer> renderedChunkIds = this.updateChunks(posX, posY, renderDistance);
+    final ArrayList<Integer> renderedChunkIds = this.updateChunks(demo.getX(), demo.getY(), renderDistance);
     this.unloadChunks(renderedChunkIds);
     this.updateChunkView();
   }
