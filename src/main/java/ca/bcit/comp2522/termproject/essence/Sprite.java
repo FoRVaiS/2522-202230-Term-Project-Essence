@@ -14,6 +14,12 @@ public abstract class Sprite implements LogicComponent {
   /** Size of a tile. */
   public static final int TILE_SIZE = 128;
 
+  /** Image reference for the PLAYER character. */
+  public static final Image SPRITE_PLAYER = new Image("SPRITE_PLAYER.png");
+
+  /** Image reference for the BRICK tile. */
+  public static final Image TILE_BRICK = new Image("TILE_BRICK.png", TILE_SIZE, TILE_SIZE, false, false);
+
   private final ImageView view;
 
   private double x;
