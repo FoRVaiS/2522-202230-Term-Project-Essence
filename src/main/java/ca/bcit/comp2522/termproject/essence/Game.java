@@ -15,6 +15,8 @@ import javafx.util.Duration;
 public class Game implements EventHandler<ActionEvent> {
   private final Timeline gameLoop;
 
+  private final World world;
+
   /**
    * Creates a new instance of the game.
    *
@@ -22,8 +24,9 @@ public class Game implements EventHandler<ActionEvent> {
    * @param tickrate frequency of game updates
    */
   public Game(final Window window, final int tickrate) {
-    this.gameLoop = new Timeline();
+    this.world = new World(window.getSceneGroup());
 
+    this.gameLoop = new Timeline();
     this.startGameLoop(tickrate);
   }
 
@@ -61,6 +64,6 @@ public class Game implements EventHandler<ActionEvent> {
    */
   @Override
   public void handle(final ActionEvent event) {
-    System.out.println("Tick!");
+    this.world.update();
   }
 }
