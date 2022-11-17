@@ -83,7 +83,7 @@ public class World implements LogicComponent {
    * @param renderedChunkIds Ids of chunks rendered in a given cycle
    */
   private void unloadChunks(final ArrayList<Integer> renderedChunkIds) {
-    for (Chunk renderedChunk : this.chunks.values()) {
+    for (final Chunk renderedChunk : this.chunks.values()) {
       if (!renderedChunkIds.contains(renderedChunk.getId()) && renderedChunk.shouldBeRendered()) {
         System.out.printf("Unloading %d\n", renderedChunk.getId());
         renderedChunk.unload();
@@ -95,8 +95,8 @@ public class World implements LogicComponent {
    * Updates the visibility of chunks.
    */
   private void updateChunkView() {
-    for (Chunk chunk : this.chunks.values()) {
-      for (ImageView view : chunk.getTiles()) {
+    for (final Chunk chunk : this.chunks.values()) {
+      for (final ImageView view : chunk.getTiles()) {
         if (!this.sceneGroup.getChildren().contains(view) && chunk.shouldBeRendered()) {
           this.sceneGroup.getChildren().add(view);
         } else if (!chunk.shouldBeRendered()) {
@@ -166,7 +166,7 @@ public class World implements LogicComponent {
    */
   @Override
   public void update() {
-    for (LogicComponent child : this.logicalChildren) {
+    for (final LogicComponent child : this.logicalChildren) {
       child.update();
     }
 
