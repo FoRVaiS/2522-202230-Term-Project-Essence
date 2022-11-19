@@ -16,7 +16,7 @@ import javafx.scene.input.KeyEvent;
  */
 
 public class PlayerController implements Controller {
-    private final Scene scene;
+    private final Scene scene = Layers.PLAYER_LAYER.getScene();
     private final HashMap<KeyCode, Events> keyMap;
     private final HashMap<Events, Consumer<Integer>> eventFnMap;
     private final HashMap<KeyCode, Integer> keyScaleMap;
@@ -25,8 +25,7 @@ public class PlayerController implements Controller {
      * Our dynamic constructor that takes in the scene.
      * @param scene PlayerController's method to detect user input
      */
-    public PlayerController(final Scene scene) {
-        this.scene = scene;
+    public PlayerController() {
         this.keyMap = new HashMap<>();
         this.eventFnMap = new HashMap<>();
         this.keyScaleMap = new HashMap<>();
