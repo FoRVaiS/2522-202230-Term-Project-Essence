@@ -80,8 +80,8 @@ public class World implements LogicComponent {
   private void unloadChunks(final ArrayList<Integer> renderedChunkIds) {
     for (final Chunk renderedChunk : this.chunks.values()) {
       if (!renderedChunkIds.contains(renderedChunk.getId()) && renderedChunk.shouldBeRendered()) {
-        System.out.printf("Unloading %d\n", renderedChunk.getId());
         renderedChunk.unload();
+        this.chunks.remove(renderedChunk.getId());
       }
     }
   }
@@ -117,6 +117,7 @@ public class World implements LogicComponent {
     }
 
     final int renderDistance = 2000;
+    System.out.println(this.chunks.size()); 
     final ArrayList<Integer> renderedChunkIds = this.updateChunks(-player.getX(), -player.getY(), renderDistance);
     this.unloadChunks(renderedChunkIds);
     this.updateChunkView();
