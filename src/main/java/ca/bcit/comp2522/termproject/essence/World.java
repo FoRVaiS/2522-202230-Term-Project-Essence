@@ -19,15 +19,10 @@ public class World implements LogicComponent {
   private final ArrayList<LogicComponent> logicalChildren = new ArrayList<>();
   private final ChunkGeneratorDemo demo;
 
-  private final Group sceneGroup;
-
   /**
    * Creates an instance of the world.
-   *
-   * @param sceneGroup scene group for the world view
    */
-  public World(final Group sceneGroup) {
-    this.sceneGroup = sceneGroup;
+  public World() {
     this.demo = new ChunkGeneratorDemo();
     this.update();
   }
@@ -97,10 +92,10 @@ public class World implements LogicComponent {
   private void updateChunkView() {
     for (final Chunk chunk : this.chunks.values()) {
       for (final ImageView view : chunk.getTiles()) {
-        if (!this.sceneGroup.getChildren().contains(view) && chunk.shouldBeRendered()) {
-          this.sceneGroup.getChildren().add(view);
+        if (!Layers.BACKGROUND_LAYER.getChildren().contains(view) && chunk.shouldBeRendered()) {
+          Layers.BACKGROUND_LAYER.getChildren().add(view);
         } else if (!chunk.shouldBeRendered()) {
-          this.sceneGroup.getChildren().remove(view);
+          Layers.BACKGROUND_LAYER.getChildren().remove(view);
         }
       }
     }
@@ -130,8 +125,8 @@ public class World implements LogicComponent {
      * Renders the sprite if it has not already been added.
      */
     public void render() {
-      if (!sceneGroup.getChildren().contains(this.getView())) {
-        sceneGroup.getChildren().add(this.getView());
+      if (!Layers.PLAYER_LAYER.getChildren().contains(this.getView())) {
+        Layers.PLAYER_LAYER.getChildren().add(this.getView());
       }
     }
 
@@ -140,8 +135,8 @@ public class World implements LogicComponent {
      */
     @Override
     public void update() {
-      final int originX = (int) sceneGroup.getScene().getWidth() / 2;
-      final int originY = (int) sceneGroup.getScene().getHeight() / 2;
+      final int originX = (int) Layers.PLAYER_LAYER.getScene().getWidth() / 2;
+      final int originY = (int) Layers.PLAYER_LAYER.getScene().getHeight() / 2;
 
       time += increment;
 
