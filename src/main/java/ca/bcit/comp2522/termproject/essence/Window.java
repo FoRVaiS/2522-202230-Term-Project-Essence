@@ -24,16 +24,6 @@ public class Window extends Application {
     public static final int WINDOW_HEIGHT = 540;
     /** Custom String Key Combination. */
     public static final String CUSTOM_STRING_CODE = "O";
-    private Group group;
-
-    /**
-     * Returns the current scene.
-     *
-     * @return current scene
-     */
-    public Group getSceneGroup() {
-        return this.group;
-    }
 
     /**
      * The start of the application.
@@ -42,10 +32,8 @@ public class Window extends Application {
      */
     @Override
     public void start(final Stage stage) {
-        this.group = new Group();
-
         stage.setTitle("Essence");
-        stage.setScene(new Scene(this.group));
+        stage.setScene(new Scene(new Group(Layers.BACKGROUND_LAYER, Layers.FOREGROUND_LAYER, Layers.PLAYER_LAYER)));
         stage.setFullScreen(true);
         stage.setFullScreenExitKeyCombination(KeyCombination.keyCombination(CUSTOM_STRING_CODE));
         stage.show();
@@ -59,7 +47,7 @@ public class Window extends Application {
             }
         });
         final int tickrate = 120;
-        final EventHandler<ActionEvent> game = new Game(this, tickrate);
+        final EventHandler<ActionEvent> game = new Game(tickrate);
     }
 
     /**

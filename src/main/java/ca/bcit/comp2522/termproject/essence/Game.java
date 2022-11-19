@@ -20,11 +20,10 @@ public class Game implements EventHandler<ActionEvent> {
   /**
    * Creates a new instance of the game.
    *
-   * @param window   reference to the containing window
    * @param tickrate frequency of game updates
    */
-  public Game(final Window window, final int tickrate) {
-    this.world = new World(window.getSceneGroup());
+  public Game(final int tickrate) {
+    this.world = new World();
 
     this.gameLoop = new Timeline();
     this.startGameLoop(tickrate);
