@@ -3,9 +3,9 @@ package ca.bcit.comp2522.termproject.essence;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ca.bcit.comp2522.termproject.essence.entities.Player;
 import ca.bcit.comp2522.termproject.essence.interfaces.LogicComponent;
 import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
-import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 
 /**
@@ -17,13 +17,13 @@ import javafx.scene.image.ImageView;
 public class World implements LogicComponent {
   private final HashMap<Integer, Chunk> chunks = new HashMap<>();
   private final ArrayList<LogicComponent> logicalChildren = new ArrayList<>();
-  private final ChunkGeneratorDemo demo;
+  private final ArrayList<Entity> entities = new ArrayList<>();
 
   /**
    * Creates an instance of the world.
    */
   public World() {
-    this.demo = new ChunkGeneratorDemo();
+    this.entities.add(Player.getPlayer());
     this.update();
   }
 
@@ -102,73 +102,22 @@ public class World implements LogicComponent {
   }
 
   /**
-   * A demo sprite that "walks" in a circle to load and unload chunks in the world.
-   *
-   * @author Benjamin Chiang
-   * @version 0.1.0
-   */
-  private class ChunkGeneratorDemo extends BrickTileSprite {
-    private final double increment = 0.01;
-    private final double radius = 700.0;
-
-    private double time = 0;
-
-    /**
-     * Creates a sprite used to demo the chunk generator.
-     */
-    ChunkGeneratorDemo() {
-      super();
-      this.update();
-    }
-
-    /**
-     * Renders the sprite if it has not already been added.
-     */
-    public void render() {
-      if (!Layers.PLAYER_LAYER.getChildren().contains(this.getView())) {
-        Layers.PLAYER_LAYER.getChildren().add(this.getView());
-      }
-    }
-
-    /**
-     * Updates the demo sprite's logic.
-     */
-    @Override
-    public void update() {
-      final int originX = (int) Layers.PLAYER_LAYER.getScene().getWidth() / 2;
-      final int originY = (int) Layers.PLAYER_LAYER.getScene().getHeight() / 2;
-
-      time += increment;
-
-      final double newPosX = Math.sin(time) * radius + originX;
-      final double newPosY = Math.cos(time) * radius + originY;
-
-      this.setPosition(newPosX, newPosY);
-
-      final double deltaX = newPosX - originX;
-      final double deltaY = newPosY - originY;
-      final double degrees = Math.atan(deltaY / deltaX) * 180 / Math.PI;
-
-      this.setRotation(degrees);
-
-      super.update();
-      this.render();
-    }
-  }
-
-  /**
    * Updates all logical components in the world.
    */
   @Override
   public void update() {
+    final Entity player = Player.getPlayer();
+
     for (final LogicComponent child : this.logicalChildren) {
       child.update();
     }
 
-    final int renderDistance = 256;
-    demo.update();
+    for (final Entity entity : this.entities) {
+      entity.update();
+    }
 
-    final ArrayList<Integer> renderedChunkIds = this.updateChunks(demo.getX(), demo.getY(), renderDistance);
+    final int renderDistance = 2000;
+    final ArrayList<Integer> renderedChunkIds = this.updateChunks(-player.getX(), -player.getY(), renderDistance);
     this.unloadChunks(renderedChunkIds);
     this.updateChunkView();
   }
