@@ -17,20 +17,20 @@ public interface Controller {
      * @param eventName controller's Events as eventName
      */
     void bindActionKey(KeyCode keyCode, Events eventName);
-    void bindAction(Events eventName, Consumer<Integer> actionHandler);
+    void bindAction(Events eventName, Consumer<Double> actionHandler);
     /**
      * Binds AxisKey type keycode and events to a scale.
      * @param keyCode controller's KeyCode in keycode
      * @param eventName controller's Events as eventName
      * @param scale controller's scale in integer
      */
-    void bindAxisKey(KeyCode keyCode, Events eventName, Integer scale);
+    void bindAxisKey(KeyCode keyCode, Events eventName, Double scale);
     /**
-     * Binds Axis type eventName to Integer based handler.
+     * Binds Axis type eventName to Double based handler.
      * @param eventName controller's KeyCode in keycode
      * @param handler controller's Events as eventName
      */
-    void bindAxis(Events eventName, Consumer<Integer> handler);
+    void bindAxis(Events eventName, Consumer<Double> handler);
     /**
      * Default action event names for entity manipulation.
      */
