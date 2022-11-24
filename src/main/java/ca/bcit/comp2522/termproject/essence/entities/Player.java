@@ -2,6 +2,7 @@ package ca.bcit.comp2522.termproject.essence.entities;
 
 import ca.bcit.comp2522.termproject.essence.Entity;
 import ca.bcit.comp2522.termproject.essence.Layers;
+import ca.bcit.comp2522.termproject.essence.Vec2D;
 import ca.bcit.comp2522.termproject.essence.controllers.PlayerController;
 import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
 
@@ -22,7 +23,7 @@ public final class Player extends Entity {
    * Creates a new player entity.
    */
   private Player() {
-    super(new BrickTileSprite(), 0, 0);
+    super(new BrickTileSprite(), new Vec2D());
 
     this.render(Layers.PLAYER_LAYER);
     this.possess(new PlayerController());
@@ -85,5 +86,6 @@ public final class Player extends Entity {
    * Update player logic.
    */
   @Override
-  public void update() { }
+  public void update() {
+  }
 }

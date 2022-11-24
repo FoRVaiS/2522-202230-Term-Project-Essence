@@ -36,8 +36,9 @@ public class Chunk {
         final int tileOriginX = posX + tileX * Sprite.TILE_SIZE;
         final int tileOriginY = posY + tileY * Sprite.TILE_SIZE;
 
+        final Vec2D newTilePosition = new Vec2D(tileOriginX, tileOriginY);
         Sprite tile = Sprite.createBrickTile();
-        tile.setPosition(tileOriginX, tileOriginY);
+        tile.setPosition(newTilePosition);
         tile.update();
 
         tiles[tileX + tileY * Chunk.CHUNK_SIZE] = tile.getView();

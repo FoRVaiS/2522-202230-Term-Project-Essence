@@ -1,6 +1,7 @@
 package ca.bcit.comp2522.termproject.essence.sprites;
 
 import ca.bcit.comp2522.termproject.essence.Sprite;
+import ca.bcit.comp2522.termproject.essence.Vec2D;
 
 /**
  * A sprite for the brick tile.
@@ -19,33 +20,30 @@ public class BrickTileSprite extends Sprite {
   /**
    * Creates a sprite using a given image.
    *
-   * @param x sprite's x position
-   * @param y sprite's y position
+   * @param position sprite position
    */
-  public BrickTileSprite(final double x, final double y) {
-    super(Sprite.TILE_BRICK, x, y);
+  public BrickTileSprite(final Vec2D position) {
+    super(Sprite.TILE_BRICK, position);
   }
 
   /**
    * Creates a sprite using a given image.
    *
-   * @param x     sprite's x position
-   * @param y     sprite's y position
-   * @param scale sprite's scale factor
+   * @param position sprite position
+   * @param scale    sprite scale factor
    */
-  public BrickTileSprite(final double x, final double y, final double scale) {
-    super(Sprite.TILE_BRICK, x, y, scale);
+  public BrickTileSprite(final Vec2D position, final double scale) {
+    super(Sprite.TILE_BRICK, position, scale);
   }
 
   /**
    * Creates a sprite using a given image.
    *
-   * @param x       sprite's x position
-   * @param y       sprite's y position
-   * @param scale   sprite's scale factor
-   * @param radians sprite's rotation in radians
+   * @param position sprite position
+   * @param scale    sprite scale factor
+   * @param radians  sprite rotation in radians
    */
-  public BrickTileSprite(final double x, final double y, final double scale, final double radians) {
-    super(Sprite.TILE_BRICK, x, y, scale, radians);
+  public BrickTileSprite(final Vec2D position, final double scale, final double radians) {
+    super(Sprite.TILE_BRICK, position, scale, radians);
   }
 }
