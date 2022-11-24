@@ -29,34 +29,26 @@ public abstract class Entity implements LogicComponent, Possessable {
   protected final HashMap<Stats, Double> stats = new HashMap<>();
 
   /**
+   * Entity position.
+   */
+  protected final Vec2D position;
+
+  /**
    * Entity controller.
    */
   protected Controller controller;
-
-  /**
-   * Entity x coordinate.
-   */
-  protected double x;
-
-  /**
-   * Entity y coordinate.
-   */
-  protected double y;
 
   private final Sprite sprite;
 
   /**
    * Creates an instance to represent an object in the world.
    *
-   * @param sprite sprite to represent the entity
-   * @param x      x coordinate of the entity
-   * @param y      y coordinate of the entity
+   * @param sprite   sprite to represent the entity
+   * @param position the position of the entity
    */
-  public Entity(final Sprite sprite, final double x, final double y) {
+  public Entity(final Sprite sprite, final Vec2D position) {
     this.sprite = sprite;
-
-    this.x = x;
-    this.y = y;
+    this.position = position;
 
     this.setStats();
   }
@@ -67,7 +59,7 @@ public abstract class Entity implements LogicComponent, Possessable {
    * @return entity's x position
    */
   public double getX() {
-    return this.x;
+    return this.position.getX();
   }
 
   /**
@@ -76,7 +68,7 @@ public abstract class Entity implements LogicComponent, Possessable {
    * @param xDir the direction to move on the x-axis
    */
   public void moveX(final double xDir) {
-    this.x += xDir * this.stats.get(Stats.SPEED);
+    this.position.setX(this.getX() + xDir * this.stats.get(Stats.SPEED));
   }
 
   /**
@@ -85,7 +77,7 @@ public abstract class Entity implements LogicComponent, Possessable {
    * @return entity's y position
    */
   public double getY() {
-    return this.y;
+    return this.position.getY();
   }
 
   /**
@@ -94,7 +86,7 @@ public abstract class Entity implements LogicComponent, Possessable {
    * @param yDir the direction to move on the y-axis
    */
   public void moveY(final double yDir) {
-    this.y += yDir * this.stats.get(Stats.SPEED);
+    this.position.setY(this.getY() + yDir * this.stats.get(Stats.SPEED));
   }
 
   /**
@@ -107,7 +99,8 @@ public abstract class Entity implements LogicComponent, Possessable {
    */
   @Override
   public void update() {
-    this.sprite.setPosition(this.getX(), this.getY());
+    final Vec2D newSpritePosition = new Vec2D(this.getX(), this.getY());
+    this.sprite.setPosition(newSpritePosition);
     this.sprite.update();
   }
 

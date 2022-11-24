@@ -21,10 +21,13 @@ public abstract class Sprite implements LogicComponent {
   /** Image reference for the BRICK tile. */
   public static final Image TILE_BRICK = new Image("TILE_BRICK.png", TILE_SIZE, TILE_SIZE, false, false);
 
+  /**
+   * Sprite's position.
+   */
+  private final Vec2D position;
+
   private final ImageView view;
 
-  private double x;
-  private double y;
   private double scale;
   private double radians;
 
@@ -34,47 +37,43 @@ public abstract class Sprite implements LogicComponent {
    * @param image sprite image
    */
   public Sprite(final Image image) {
-    this(image, 0, 0, 1, 0);
+    this(image, new Vec2D());
   }
 
   /**
    * Creates a sprite using a given image.
    *
-   * @param image sprite image
-   * @param x     sprite's x position
-   * @param y     sprite's y position
+   * @param image    sprite image
+   * @param position sprite position
    */
-  public Sprite(final Image image, final double x, final double y) {
-    this(image, x, y, 1, 0);
+  public Sprite(final Image image, final Vec2D position) {
+    this(image, position, 1);
   }
 
   /**
    * Creates a sprite using a given image.
    *
-   * @param image sprite image
-   * @param x     sprite's x position
-   * @param y     sprite's y position
-   * @param scale sprite's scale factor
+   * @param image    sprite image
+   * @param position sprite position
+   * @param scale    sprite scale factor
    */
-  public Sprite(final Image image, final double x, final double y, final double scale) {
-    this(image, x, y, scale, 0);
+  public Sprite(final Image image, final Vec2D position, final double scale) {
+    this(image, position, scale, 0);
   }
 
   /**
    * Creates a sprite using a given image.
    *
-   * @param image   sprite image
-   * @param x       sprite's x position
-   * @param y       sprite's y position
-   * @param scale   sprite's scale factor
-   * @param radians sprite's rotation in radians
+   * @param image    sprite image
+   * @param position sprite position
+   * @param scale    sprite scale factor
+   * @param radians  sprite rotation in radians
    */
-  public Sprite(final Image image, final double x, final double y, final double scale, final double radians) {
+  public Sprite(final Image image, final Vec2D position, final double scale, final double radians) {
     this.view = new ImageView(image);
     this.view.setSmooth(false);
 
-    this.x = x;
-    this.y = y;
+    this.position = position;
     this.scale = scale;
     this.radians = radians;
     this.update();
@@ -87,42 +86,6 @@ public abstract class Sprite implements LogicComponent {
    */
   public ImageView getView() {
     return this.view;
-  }
-
-  /**
-   * Returns the sprite's x position.
-   *
-   * @return sprite's x position
-   */
-  protected double getX() {
-    return this.x;
-  }
-
-  /**
-   * Sets the sprite's x position.
-   *
-   * @param posX new x position
-   */
-  protected void setX(final double posX) {
-    this.x = posX;
-  }
-
-  /**
-   * Returns the sprite's y position.
-   *
-   * @return sprite's y position
-   */
-  protected double getY() {
-    return this.y;
-  }
-
-  /**
-   * Sets the sprite's y position.
-   *
-   * @param posY new y position
-   */
-  protected void setY(final double posY) {
-    this.y = posY;
   }
 
   /**
@@ -155,23 +118,21 @@ public abstract class Sprite implements LogicComponent {
   /**
    * Sets the sprite position.
    *
-   * @param posX origin x coordinate
-   * @param posY origin y coordinate
+   * @param newPos new position
    */
-  public void setPosition(final double posX, final double posY) {
-    this.setX(posX);
-    this.setY(posY);
+  public void setPosition(final Vec2D newPos) {
+    this.position.setX(newPos.getX());
+    this.position.setY(newPos.getY());
   };
 
   /**
    * Moves the sprite relative to it's current position.
    *
-   * @param deltaX distance on the x axis
-   * @param deltaY distance on the y axis
+   * @param deltaVector 2D vector containing position deltas
    */
-  public void translate(final double deltaX, final double deltaY) {
-    this.setX(this.getX() + deltaX);
-    this.setY(this.getY() + deltaY);
+  public void translate(final Vec2D deltaVector) {
+    this.position.setX(this.position.getX() + deltaVector.getX());
+    this.position.setY(this.position.getY() + deltaVector.getY());
   };
 
   /**
@@ -188,8 +149,8 @@ public abstract class Sprite implements LogicComponent {
    */
   @Override
   public void update() {
-    view.setX(x);
-    view.setY(y);
+    view.setX(this.position.getX());
+    view.setY(this.position.getY());
     view.setScaleX(scale);
     view.setScaleY(scale);
     view.setRotate(radians);
