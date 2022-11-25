@@ -22,8 +22,21 @@ public class World implements LogicComponent {
    * Creates an instance of the world.
    */
   public World() {
-    this.entities.add(Player.getPlayer());
+    this.spawn(Player.getPlayer(), new Vec2D());
     this.update();
+  }
+
+  /**
+   * Spawns an entity into the world at a given position.
+   * 
+   * @param ent      entity to spawn
+   * @param position position to spawn entity at
+   */
+  public void spawn(final Entity ent, final Vec2D position) {
+    this.entities.add(ent);
+
+    ent.setPosition(position);
+    ent.render();
   }
 
   /**
