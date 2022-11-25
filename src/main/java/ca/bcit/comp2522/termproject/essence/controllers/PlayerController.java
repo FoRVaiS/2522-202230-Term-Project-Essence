@@ -1,5 +1,6 @@
 package ca.bcit.comp2522.termproject.essence.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
@@ -21,15 +22,20 @@ public class PlayerController implements Controller {
     private final HashMap<KeyCode, Events> keyMap;
     private final HashMap<Events, Consumer<Double>> eventFnMap;
     private final HashMap<KeyCode, Double> keyScaleMap;
+    private final ArrayList<KeyCode> state;
 
     /**
      * Our dynamic constructor that takes in the scene.
      */
     public PlayerController() {
+        this.state = new ArrayList<>(); // Set ArrayList.
         this.keyMap = new HashMap<>();
         this.eventFnMap = new HashMap<>();
         this.keyScaleMap = new HashMap<>();
-        this.scene.setOnKeyPressed(this::processInput);
+        // this.scene.setOnKeyPressed(this::processInput);
+        // these are listeners.
+        this.scene.setOnKeyPressed(this::pushKeyCodeToState);
+        this.scene.setOnKeyReleased(this::resetKeyState);
 
         this.bindAxisKey(KeyCode.D, Events.MOVE_X, -1.0);
         this.bindAxisKey(KeyCode.A, Events.MOVE_X, 1.0);
@@ -73,17 +79,40 @@ public class PlayerController implements Controller {
      * @param eventName controller's KeyCode in keycode
      * @param handler   controller's Events as eventName
      */
-
     @Override
     public void bindAxis(final Events eventName, final Consumer<Double> handler) {
         this.eventFnMap.put(eventName, handler);
     }
-
-    private void processInput(final KeyEvent event) {
-        final KeyCode code = event.getCode();
+    private void processInput(final KeyCode code) {
         final Events eventName = this.keyMap.get(code);
         final Consumer<Double> callback = this.eventFnMap.get(eventName);
         final Double scale = this.keyScaleMap.get(code);
         callback.accept(scale);
+    }
+    /**
+     * Resets key state.
+     * @param event key event
+     */
+    private void resetKeyState(final KeyEvent event) {
+        this.state.remove(event.getCode()); // mismatch in types for strictly event.
+    }
+
+    /**
+     * Adds key to state.
+     * @param event key event
+     */
+    private void pushKeyCodeToState(final KeyEvent event) {
+        if (!this.state.contains(event.getCode())){
+            this.state.add(event.getCode());
+        }
+    }
+
+    /**
+     * Updates player controller logic.
+     */
+    public void update() {
+        for (KeyCode keyCode : state) {
+            processInput(keyCode);
+        }
     }
 }

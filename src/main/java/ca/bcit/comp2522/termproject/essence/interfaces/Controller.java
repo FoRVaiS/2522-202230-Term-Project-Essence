@@ -32,6 +32,10 @@ public interface Controller {
      */
     void bindAxis(Events eventName, Consumer<Double> handler);
     /**
+     * Updates controller logic.
+     */
+    void update();
+    /**
      * Default action event names for entity manipulation.
      */
     enum Events {
