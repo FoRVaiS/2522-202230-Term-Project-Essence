@@ -109,6 +109,16 @@ public abstract class Entity implements LogicComponent, Possessable {
   }
 
   /**
+   * Sets the position of the entity.
+   *
+   * @param position the new position of the entity
+   */
+  public void setPosition(final Vec2D position) {
+    this.position.setX(position.getX());
+    this.position.setY(position.getY());
+  }
+
+  /**
    * Renders the entity on screen.
    */
   public void render() {
