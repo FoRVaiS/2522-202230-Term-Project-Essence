@@ -38,16 +38,20 @@ public abstract class Entity implements LogicComponent, Possessable {
    */
   protected Controller controller;
 
+  private final Group layer;
+
   private final Sprite sprite;
 
   /**
    * Creates an instance to represent an object in the world.
    *
    * @param sprite   sprite to represent the entity
+   * @param layer    the layer the entity sprite should reside in
    * @param position the position of the entity
    */
-  public Entity(final Sprite sprite, final Vec2D position) {
+  public Entity(final Sprite sprite, final Group layer, final Vec2D position) {
     this.sprite = sprite;
+    this.layer = layer;
     this.position = position;
 
     this.setStats();
@@ -106,12 +110,10 @@ public abstract class Entity implements LogicComponent, Possessable {
 
   /**
    * Renders the entity on screen.
-   *
-   * @param layer layer to render on
    */
-  public void render(final Group layer) {
-    if (!layer.getChildren().contains(this.sprite.getView())) {
-      layer.getChildren().add(this.sprite.getView());
+  public void render() {
+    if (!this.layer.getChildren().contains(this.sprite.getView())) {
+      this.layer.getChildren().add(this.sprite.getView());
     }
   }
 
