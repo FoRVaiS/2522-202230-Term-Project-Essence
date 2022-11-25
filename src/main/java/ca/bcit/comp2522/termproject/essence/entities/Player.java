@@ -23,9 +23,8 @@ public final class Player extends Entity {
    * Creates a new player entity.
    */
   private Player() {
-    super(new BrickTileSprite(), new Vec2D());
+    super(new BrickTileSprite(), Layers.PLAYER_LAYER, new Vec2D());
 
-    this.render(Layers.PLAYER_LAYER);
     this.possess(new PlayerController());
   }
 
