@@ -2,7 +2,10 @@ package ca.bcit.comp2522.termproject.essence.interfaces;
 
 import java.util.function.Consumer;
 
+import javafx.event.EventType;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+
 /**
  * An interface for unrelated entities to use bindings.
  *
@@ -36,11 +39,19 @@ public interface Controller {
      */
     void update();
     /**
+     * Binding mouse clicks to specific events.
+     * @param eventName controller's Events as eventName
+     * @param mouseBtnName controller's MouseEvent as mouseBtnName
+     */
+    void bindMouse(Events eventName, EventType<MouseEvent> mouseBtnName);
+    /**
      * Default action event names for entity manipulation.
      */
     enum Events {
         MOVE_X,
         MOVE_Y,
+        CLICK_X,
+        CLICK_Y,
         ATTACK,
         SKILL_SLOT1,
         SKILL_SLOT2,

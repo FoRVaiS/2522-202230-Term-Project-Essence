@@ -6,9 +6,12 @@ import java.util.function.Consumer;
 
 import ca.bcit.comp2522.termproject.essence.Layers;
 import ca.bcit.comp2522.termproject.essence.interfaces.Controller;
+import javafx.event.EventType;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 /**
  * An implementation of Controller for the player to manipulate their character.
@@ -23,11 +26,17 @@ public class PlayerController implements Controller {
     private final HashMap<Events, Consumer<Double>> eventFnMap;
     private final HashMap<KeyCode, Double> keyScaleMap;
     private final ArrayList<KeyCode> state;
+    private final HashMap<Events, EventType<MouseEvent>> mouseMap;
+    private final Point2D cursorPosition;
 
     /**
      * Our dynamic constructor that takes in the scene.
      */
     public PlayerController() {
+        // version 1 (v1) of trying mouse map bind?
+        this.mouseMap = new HashMap<Events, EventType<MouseEvent>>();
+        // version 2 (v2) of point2D library?
+        this.cursorPosition = new Point2D(50, 50);
         this.state = new ArrayList<>(); // Set ArrayList.
         this.keyMap = new HashMap<>();
         this.eventFnMap = new HashMap<>();
@@ -36,6 +45,8 @@ public class PlayerController implements Controller {
         // these are listeners.
         this.scene.setOnKeyPressed(this::pushKeyCodeToState);
         this.scene.setOnKeyReleased(this::resetKeyState);
+        // mouse listener.
+        this.scene.setOnMouseClicked(this::processMouseInput);
 
         this.bindAxisKey(KeyCode.D, Events.MOVE_X, -1.0);
         this.bindAxisKey(KeyCode.A, Events.MOVE_X, 1.0);
@@ -46,6 +57,9 @@ public class PlayerController implements Controller {
         this.bindAxisKey(KeyCode.LEFT, Events.MOVE_X, 1.0);
         this.bindAxisKey(KeyCode.UP, Events.MOVE_Y, 1.0);
         this.bindAxisKey(KeyCode.DOWN, Events.MOVE_Y, -1.0);
+        // part of v1.
+        this.bindMouse(Events.CLICK_X, MouseEvent.MOUSE_CLICKED);
+        this.bindMouse(Events.CLICK_Y, MouseEvent.MOUSE_CLICKED);
 
     }
 
@@ -58,7 +72,6 @@ public class PlayerController implements Controller {
     public void bindAction(final Events eventName, final Consumer<Double> actionHandler) {
 
     }
-
     /**
      * Maps the keyCode to an action event name and to a scale.
      *
@@ -89,6 +102,16 @@ public class PlayerController implements Controller {
         final Double scale = this.keyScaleMap.get(code);
         callback.accept(scale);
     }
+
+    private void processMouseInput(final MouseEvent event) {
+        // // v1
+        // final EventType<MouseEvent> clickedX = this.mouseMap.get(Events.CLICK_X);
+        // final EventType<MouseEvent> clickedY = this.mouseMap.get(Events.CLICK_Y);
+        // // v2
+        final double clickedX = this.cursorPosition.getX();
+        final double clickedY = this.cursorPosition.getY();
+
+    }
     /**
      * Resets key state.
      * @param event key event
@@ -102,7 +125,7 @@ public class PlayerController implements Controller {
      * @param event key event
      */
     private void pushKeyCodeToState(final KeyEvent event) {
-        if (!this.state.contains(event.getCode())){
+        if (!this.state.contains(event.getCode())) {
             this.state.add(event.getCode());
         }
     }
@@ -114,5 +137,16 @@ public class PlayerController implements Controller {
         for (KeyCode keyCode : state) {
             processInput(keyCode);
         }
+    }
+
+    /**
+     * Binds event ClickX/Y towards the mouse button click.
+     * @param eventName controller's Events as eventName
+     * @param mouseBtnName controller's MouseEvent as mouseBtnName
+     */
+
+    @Override
+    public void bindMouse(final Events eventName, final EventType<MouseEvent> mouseBtnName) {
+        this.mouseMap.put(eventName, mouseBtnName);
     }
 }
