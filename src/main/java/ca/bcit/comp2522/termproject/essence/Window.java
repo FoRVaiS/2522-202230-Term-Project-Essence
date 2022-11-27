@@ -1,5 +1,6 @@
 package ca.bcit.comp2522.termproject.essence;
 
+import ca.bcit.comp2522.termproject.essence.userInterface.EssenceAccumulator;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
