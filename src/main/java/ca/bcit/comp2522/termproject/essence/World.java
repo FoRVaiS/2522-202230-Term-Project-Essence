@@ -22,7 +22,7 @@ public class World implements LogicComponent {
    * Creates an instance of the world.
    */
   public World() {
-    this.spawn(Player.getPlayer(), new Vec2D());
+    this.spawn(Player.getPlayer(this), new Vec2D());
     this.update();
   }
 
@@ -113,7 +113,7 @@ public class World implements LogicComponent {
    */
   @Override
   public void update() {
-    final Entity player = Player.getPlayer();
+    final Entity player = Player.getPlayer(this);
 
     for (final LogicComponent child : this.logicalChildren) {
       child.update();
