@@ -2,9 +2,8 @@ package ca.bcit.comp2522.termproject.essence.interfaces;
 
 import java.util.function.Consumer;
 
-import javafx.event.EventType;
+import ca.bcit.comp2522.termproject.essence.Vec2D;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 
 /**
  * An interface for unrelated entities to use bindings.
@@ -20,7 +19,9 @@ public interface Controller {
      * @param eventName controller's Events as eventName
      */
     void bindActionKey(KeyCode keyCode, Events eventName);
+
     void bindAction(Events eventName, Consumer<Double> actionHandler);
+
     /**
      * Binds AxisKey type keycode and events to a scale.
      * @param keyCode controller's KeyCode in keycode
@@ -28,30 +29,32 @@ public interface Controller {
      * @param scale controller's scale in integer
      */
     void bindAxisKey(KeyCode keyCode, Events eventName, Double scale);
+
     /**
      * Binds Axis type eventName to Double based handler.
      * @param eventName controller's KeyCode in keycode
      * @param handler controller's Events as eventName
      */
     void bindAxis(Events eventName, Consumer<Double> handler);
+
+    /**
+     * Binds handler to mouse movement.
+     *
+     * @param handler controller's Events as eventName
+     */
+    void bindMouseMove(Consumer<Vec2D> handler);
+
     /**
      * Updates controller logic.
      */
     void update();
-    /**
-     * Binding mouse clicks to specific events.
-     * @param eventName controller's Events as eventName
-     * @param mouseBtnName controller's MouseEvent as mouseBtnName
-     */
-    void bindMouse(Events eventName, EventType<MouseEvent> mouseBtnName);
+
     /**
      * Default action event names for entity manipulation.
      */
     enum Events {
         MOVE_X,
         MOVE_Y,
-        CLICK_X,
-        CLICK_Y,
         ATTACK,
         SKILL_SLOT1,
         SKILL_SLOT2,
