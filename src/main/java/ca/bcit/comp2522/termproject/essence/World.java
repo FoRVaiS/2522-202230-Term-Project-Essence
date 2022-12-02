@@ -6,7 +6,6 @@ import java.util.HashMap;
 import ca.bcit.comp2522.termproject.essence.entities.Player;
 import ca.bcit.comp2522.termproject.essence.interfaces.LogicComponent;
 import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
-import javafx.scene.image.ImageView;
 
 /**
  * Manages objects in the world.
@@ -69,6 +68,8 @@ public class World implements LogicComponent {
       }
     }
 
+    this.unloadChunks(renderedChunkIds);
+
     return renderedChunkIds;
   }
 
@@ -78,26 +79,19 @@ public class World implements LogicComponent {
    * @param renderedChunkIds Ids of chunks rendered in a given cycle
    */
   private void unloadChunks(final ArrayList<Integer> renderedChunkIds) {
-    for (final Chunk renderedChunk : this.chunks.values()) {
-      if (!renderedChunkIds.contains(renderedChunk.getId()) && renderedChunk.shouldBeRendered()) {
-        renderedChunk.unload();
-        this.chunks.remove(renderedChunk.getId());
+    final ArrayList<Integer> unrenderedChunkIds = new ArrayList<>();
+
+    for (final var chunkEntry : this.chunks.entrySet()) {
+      final Chunk chunk = chunkEntry.getValue();
+
+      if (!renderedChunkIds.contains(chunk.getId())) {
+        chunk.unload();
+        unrenderedChunkIds.add(chunkEntry.getKey());
       }
     }
-  }
 
-  /**
-   * Updates the visibility of chunks.
-   */
-  private void updateChunkView() {
-    for (final Chunk chunk : this.chunks.values()) {
-      for (final ImageView view : chunk.getTiles()) {
-        if (!Layers.BACKGROUND_LAYER.getChildren().contains(view) && chunk.shouldBeRendered()) {
-          Layers.BACKGROUND_LAYER.getChildren().add(view);
-        } else if (!chunk.shouldBeRendered()) {
-          Layers.BACKGROUND_LAYER.getChildren().remove(view);
-        }
-      }
+    for (final Integer chunkId : unrenderedChunkIds) {
+      this.chunks.remove(chunkId);
     }
   }
 
@@ -117,9 +111,6 @@ public class World implements LogicComponent {
     }
 
     final int renderDistance = 2000;
-    System.out.println(this.chunks.size()); 
-    final ArrayList<Integer> renderedChunkIds = this.updateChunks(-player.getX(), -player.getY(), renderDistance);
-    this.unloadChunks(renderedChunkIds);
-    this.updateChunkView();
+    this.updateChunks(-player.getX(), -player.getY(), renderDistance);
   }
 }

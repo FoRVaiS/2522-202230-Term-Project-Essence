@@ -18,9 +18,6 @@ public class Chunk {
   /** Unique chunk id based on position. */
   private int id;
 
-  /** Should the chunk be rendered? */
-  private boolean shouldRender = false;
-
   /**
    * Creates a chunk, a grid of tiles.
    *
@@ -68,23 +65,20 @@ public class Chunk {
    * Renders the chunk to the screen.
    */
   public void render() {
-    this.shouldRender = true;
+    for (final ImageView view : this.tiles) {
+      if (!Layers.BACKGROUND_LAYER.getChildren().contains(view)) {
+        Layers.BACKGROUND_LAYER.getChildren().add(view);
+      }
+    }
   }
 
   /**
    * Unloads the chunk from view.
    */
   public void unload() {
-    this.shouldRender = false;
-  }
-
-  /**
-   * Returns if the chunk should be rendered.
-   *
-   * @return should the chunk be rendered
-   */
-  public boolean shouldBeRendered() {
-    return this.shouldRender;
+    for (final ImageView view : this.tiles) {
+      Layers.BACKGROUND_LAYER.getChildren().remove(view);
+    }
   }
 
   /**
