@@ -20,6 +20,12 @@ public interface Controller {
      */
     void bindActionKey(KeyCode keyCode, Events eventName);
 
+    /**
+     * Binds an action to an event.
+     *
+     * @param eventName
+     * @param actionHandler
+     */
     void bindAction(Events eventName, Consumer<Double> actionHandler);
 
     /**
