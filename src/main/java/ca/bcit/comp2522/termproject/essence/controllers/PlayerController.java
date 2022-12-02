@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 import ca.bcit.comp2522.termproject.essence.Layers;
+import ca.bcit.comp2522.termproject.essence.Vec2D;
 import ca.bcit.comp2522.termproject.essence.interfaces.Controller;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 /**
  * An implementation of Controller for the player to manipulate their character.
@@ -23,19 +25,22 @@ public class PlayerController implements Controller {
     private final HashMap<Events, Consumer<Double>> eventFnMap;
     private final HashMap<KeyCode, Double> keyScaleMap;
     private final ArrayList<KeyCode> state;
+    private final ArrayList<Consumer<Vec2D>> moveFn;
 
     /**
      * Our dynamic constructor that takes in the scene.
      */
     public PlayerController() {
+        this.moveFn = new ArrayList<>();
         this.state = new ArrayList<>(); // Set ArrayList.
         this.keyMap = new HashMap<>();
         this.eventFnMap = new HashMap<>();
         this.keyScaleMap = new HashMap<>();
-        // this.scene.setOnKeyPressed(this::processInput);
         // these are listeners.
         this.scene.setOnKeyPressed(this::pushKeyCodeToState);
         this.scene.setOnKeyReleased(this::resetKeyState);
+        // mouse listener.
+        this.scene.setOnMouseMoved(this::processMouseMove);
 
         this.bindAxisKey(KeyCode.D, Events.MOVE_X, -1.0);
         this.bindAxisKey(KeyCode.A, Events.MOVE_X, 1.0);
@@ -46,7 +51,6 @@ public class PlayerController implements Controller {
         this.bindAxisKey(KeyCode.LEFT, Events.MOVE_X, 1.0);
         this.bindAxisKey(KeyCode.UP, Events.MOVE_Y, 1.0);
         this.bindAxisKey(KeyCode.DOWN, Events.MOVE_Y, -1.0);
-
     }
 
     @Override
@@ -70,7 +74,6 @@ public class PlayerController implements Controller {
     public void bindAxisKey(final KeyCode keyCode, final Events eventName, final Double scale) {
         this.keyMap.put(keyCode, eventName);
         this.keyScaleMap.put(keyCode, scale);
-
     }
 
     /**
@@ -83,14 +86,41 @@ public class PlayerController implements Controller {
     public void bindAxis(final Events eventName, final Consumer<Double> handler) {
         this.eventFnMap.put(eventName, handler);
     }
+
+    /**
+     * Binds handler to mouse movement.
+     *
+     * @param handler controller's Events as eventName
+     */
+    @Override
+    public void bindMouseMove(final Consumer<Vec2D> handler) {
+        this.moveFn.add(handler);
+    }
+
     private void processInput(final KeyCode code) {
         final Events eventName = this.keyMap.get(code);
         final Consumer<Double> callback = this.eventFnMap.get(eventName);
         final Double scale = this.keyScaleMap.get(code);
         callback.accept(scale);
     }
+
+    private void processMouseMove(final MouseEvent event) {
+        final double halfWidth = Layers.PLAYER_LAYER.getScene().getWidth() / 2;
+        final double halfHeight = Layers.PLAYER_LAYER.getScene().getHeight() / 2;
+
+        final double mouseX = event.getX() - halfWidth;
+        final double mouseY = -(event.getY() - halfHeight);
+
+        final Vec2D mousePosition = new Vec2D(mouseX, mouseY);
+
+        for (final Consumer<Vec2D> handler : this.moveFn) {
+            handler.accept(mousePosition);
+        }
+    }
+
     /**
      * Resets key state.
+     *
      * @param event key event
      */
     private void resetKeyState(final KeyEvent event) {
@@ -99,10 +129,11 @@ public class PlayerController implements Controller {
 
     /**
      * Adds key to state.
+     *
      * @param event key event
      */
     private void pushKeyCodeToState(final KeyEvent event) {
-        if (!this.state.contains(event.getCode())){
+        if (!this.state.contains(event.getCode())) {
             this.state.add(event.getCode());
         }
     }
