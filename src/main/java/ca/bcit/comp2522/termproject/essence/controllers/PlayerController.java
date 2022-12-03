@@ -44,15 +44,15 @@ public class PlayerController implements Controller {
 
         this.bindActionKey(KeyCode.F, Events.ATTACK);
 
-        this.bindAxisKey(KeyCode.D, Events.MOVE_X, -1.0);
-        this.bindAxisKey(KeyCode.A, Events.MOVE_X, 1.0);
-        this.bindAxisKey(KeyCode.W, Events.MOVE_Y, 1.0);
-        this.bindAxisKey(KeyCode.S, Events.MOVE_Y, -1.0);
+        this.bindAxisKey(KeyCode.D, Events.MOVE_X, 1.0);
+        this.bindAxisKey(KeyCode.A, Events.MOVE_X, -1.0);
+        this.bindAxisKey(KeyCode.W, Events.MOVE_Y, -1.0);
+        this.bindAxisKey(KeyCode.S, Events.MOVE_Y, 1.0);
 
-        this.bindAxisKey(KeyCode.RIGHT, Events.MOVE_X, -1.0);
-        this.bindAxisKey(KeyCode.LEFT, Events.MOVE_X, 1.0);
-        this.bindAxisKey(KeyCode.UP, Events.MOVE_Y, 1.0);
-        this.bindAxisKey(KeyCode.DOWN, Events.MOVE_Y, -1.0);
+        this.bindAxisKey(KeyCode.RIGHT, Events.MOVE_X, 1.0);
+        this.bindAxisKey(KeyCode.LEFT, Events.MOVE_X, -1.0);
+        this.bindAxisKey(KeyCode.UP, Events.MOVE_Y, -1.0);
+        this.bindAxisKey(KeyCode.DOWN, Events.MOVE_Y, 1.0);
     }
 
     /**
