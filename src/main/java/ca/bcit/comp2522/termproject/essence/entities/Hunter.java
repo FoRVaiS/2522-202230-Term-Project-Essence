@@ -1,7 +1,9 @@
 package ca.bcit.comp2522.termproject.essence.entities;
 
 import ca.bcit.comp2522.termproject.essence.Entity;
+import ca.bcit.comp2522.termproject.essence.Layers;
 import ca.bcit.comp2522.termproject.essence.Vec2D;
+import ca.bcit.comp2522.termproject.essence.World;
 import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
 
 /**
@@ -20,11 +22,12 @@ public class Hunter extends Entity {
     private final double defaultHunterSpeed = 12.0;
 
     /**
-     * Creates a new hunter entity.
+     * Creates a new gunner entity.
+     *
+     * @param world reference to the world
      */
-    public Hunter() {
-        super(new BrickTileSprite(), new Vec2D());
-        // future layer for mob.
+    public Hunter(final World world) {
+        super(world, new BrickTileSprite(), Layers.FOREGROUND_LAYER, new Vec2D());
     }
 
     /**
