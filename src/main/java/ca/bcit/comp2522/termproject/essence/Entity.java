@@ -146,9 +146,12 @@ public abstract class Entity implements LogicComponent, Possessable {
       this.camera.update(newSpritePosition);
     }
 
+    if (this.controller != null) {
+      this.controller.update();
+    }
+
     this.sprite.setPosition(newSpritePosition);
     this.sprite.update();
-    this.controller.update();
   }
 
   /**
