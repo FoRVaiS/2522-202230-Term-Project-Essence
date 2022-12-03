@@ -53,42 +53,4 @@ public final class Player extends Entity {
     this.stats.put(Entity.Stats.DAMAGE, this.defaultDamage);
     this.stats.put(Entity.Stats.SPEED, this.defaultSpeed);
   }
-
-  /**
-   * Shifts everything but the player view layer in a direction on the x-axis.
-   *
-   * @param xDir the direction to move on the x-axis
-   */
-  @Override
-  public void moveX(final double xDir) {
-    super.moveX(xDir);
-
-    final double currX = Layers.BACKGROUND_LAYER.getTranslateX();
-
-    Layers.BACKGROUND_LAYER.setTranslateX(currX + xDir * this.stats.get(Entity.Stats.SPEED));
-    Layers.FOREGROUND_LAYER.setTranslateX(currX + xDir * this.stats.get(Entity.Stats.SPEED));
-  }
-
-  /**
-   * Shifts everything but the player view layer in a direction on the x-axis.
-   *
-   * @param yDir the direction to move on the x-axis
-   */
-  @Override
-  public void moveY(final double yDir) {
-    super.moveY(yDir);
-
-    final double currY = Layers.BACKGROUND_LAYER.getTranslateY();
-
-    Layers.BACKGROUND_LAYER.setTranslateY(currY + yDir * this.stats.get(Entity.Stats.SPEED));
-    Layers.FOREGROUND_LAYER.setTranslateY(currY + yDir * this.stats.get(Entity.Stats.SPEED));
-  }
-
-  /**
-   * Update player logic.
-   */
-  @Override
-  public void update() {
-    this.controller.update();
-  }
 }
