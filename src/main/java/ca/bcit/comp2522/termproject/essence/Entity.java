@@ -2,6 +2,7 @@ package ca.bcit.comp2522.termproject.essence;
 
 import java.util.HashMap;
 
+import ca.bcit.comp2522.termproject.essence.entities.PelletProjectile;
 import ca.bcit.comp2522.termproject.essence.interfaces.Controller;
 import ca.bcit.comp2522.termproject.essence.interfaces.LogicComponent;
 import ca.bcit.comp2522.termproject.essence.interfaces.Possessable;
@@ -43,6 +44,8 @@ public abstract class Entity implements LogicComponent, Possessable {
   private final Sprite sprite;
 
   private final World world;
+
+  private double rotation = 0;
 
   /**
    * Creates an instance to represent an object in the world.
@@ -115,6 +118,22 @@ public abstract class Entity implements LogicComponent, Possessable {
   protected abstract void setStats();
 
   /**
+   * Spawns a projectile with a heading.
+   *
+   * @param projectile instance of a projectile to spawn
+   * @param vector     projectile's movement vector
+   */
+  protected void spawnProjectile(final Projectile projectile, final Vec2D vector) {
+    this.getWorld().spawn(projectile, new Vec2D(-this.getX(), -this.getY()));
+
+    final double velocity = vector.getX();
+    final double heading = vector.getY();
+
+    projectile.setHeading(heading);
+    projectile.setVelocity(velocity);
+  }
+
+  /**
    * Update's the entity's logic components.
    */
   @Override
@@ -141,6 +160,22 @@ public abstract class Entity implements LogicComponent, Possessable {
     if (!this.layer.getChildren().contains(this.sprite.getView())) {
       this.layer.getChildren().add(this.sprite.getView());
     }
+  }
+
+  /**
+   * Shoots a projectile.
+   *
+   * @param flag a placeholder value for the consumer
+   */
+  public void shoot(final double flag) {
+    final Vec2D projectilePos = new Vec2D(-this.getX(), -this.getY());
+    final Projectile projectile = new PelletProjectile(this.getWorld(), this, projectilePos);
+
+    final double velocity = 8.0;
+    final double heading = -this.rotation;
+    final Vec2D vector = new Vec2D(velocity, heading);
+
+    this.spawnProjectile(projectile, vector);
   }
 
   /**
