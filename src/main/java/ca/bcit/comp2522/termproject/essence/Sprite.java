@@ -18,6 +18,9 @@ public abstract class Sprite implements LogicComponent {
   /** Image reference for the PLAYER character. */
   public static final Image SPRITE_PLAYER = new Image("SPRITE_PLAYER.png");
 
+  /** Image reference for the PLAYER character. */
+  public static final Image PROJECTILE_PELLET = new Image("SPRITE_PELLET_PROJECTILE.png");
+
   /** Image reference for the BRICK tile. */
   public static final Image TILE_BRICK = new Image("TILE_BRICK.png", TILE_SIZE, TILE_SIZE, false, false);
 

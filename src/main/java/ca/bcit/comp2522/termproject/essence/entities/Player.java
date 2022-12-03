@@ -3,6 +3,7 @@ package ca.bcit.comp2522.termproject.essence.entities;
 import ca.bcit.comp2522.termproject.essence.Entity;
 import ca.bcit.comp2522.termproject.essence.Layers;
 import ca.bcit.comp2522.termproject.essence.Vec2D;
+import ca.bcit.comp2522.termproject.essence.World;
 import ca.bcit.comp2522.termproject.essence.controllers.PlayerController;
 import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
 
@@ -21,22 +22,23 @@ public final class Player extends Entity {
 
   /**
    * Creates a new player entity.
+   * @param world reference to the world
    */
-  private Player() {
-    super(new BrickTileSprite(), new Vec2D());
+  private Player(final World world) {
+    super(world, new BrickTileSprite(), Layers.PLAYER_LAYER, new Vec2D());
 
-    this.render(Layers.PLAYER_LAYER);
     this.possess(new PlayerController());
   }
 
   /**
    * Returns a single instance of the player.
    *
+   * @param world reference to the world
    * @return player instance
    */
-  public static Player getPlayer() {
+  public static Player getPlayer(final World world) {
     if (instance == null) {
-      instance = new Player();
+      instance = new Player(world);
     }
 
     return instance;

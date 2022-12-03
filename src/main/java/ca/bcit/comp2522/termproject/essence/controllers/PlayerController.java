@@ -42,6 +42,8 @@ public class PlayerController implements Controller {
         // mouse listener.
         this.scene.setOnMouseMoved(this::processMouseMove);
 
+        this.bindActionKey(KeyCode.F, Events.ATTACK);
+
         this.bindAxisKey(KeyCode.D, Events.MOVE_X, -1.0);
         this.bindAxisKey(KeyCode.A, Events.MOVE_X, 1.0);
         this.bindAxisKey(KeyCode.W, Events.MOVE_Y, 1.0);
@@ -53,14 +55,26 @@ public class PlayerController implements Controller {
         this.bindAxisKey(KeyCode.DOWN, Events.MOVE_Y, -1.0);
     }
 
+    /**
+     * Binds a key to an event.
+     *
+     * @param keyCode   the key code
+     * @param eventName name of the event
+     */
     @Override
     public void bindActionKey(final KeyCode keyCode, final Events eventName) {
-
+        this.bindAxisKey(keyCode, eventName, 1.0);
     }
 
+    /**
+     * Binds an event to a event handler.
+     *
+     * @param eventName name of the event
+     * @param handler   function handler
+     */
     @Override
-    public void bindAction(final Events eventName, final Consumer<Double> actionHandler) {
-
+    public void bindAction(final Events eventName, final Consumer<Double> handler) {
+        this.eventFnMap.put(eventName, handler);
     }
 
     /**

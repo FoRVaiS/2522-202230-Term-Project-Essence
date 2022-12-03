@@ -22,8 +22,21 @@ public class World implements LogicComponent {
    * Creates an instance of the world.
    */
   public World() {
-    this.entities.add(Player.getPlayer());
+    this.spawn(Player.getPlayer(this), new Vec2D());
     this.update();
+  }
+
+  /**
+   * Spawns an entity into the world at a given position.
+   * 
+   * @param ent      entity to spawn
+   * @param position position to spawn entity at
+   */
+  public void spawn(final Entity ent, final Vec2D position) {
+    this.entities.add(ent);
+
+    ent.setPosition(position);
+    ent.render();
   }
 
   /**
@@ -100,13 +113,11 @@ public class World implements LogicComponent {
    */
   @Override
   public void update() {
-    final Entity player = Player.getPlayer();
+    final Entity player = Player.getPlayer(this);
 
-    for (final LogicComponent child : this.logicalChildren) {
-      child.update();
-    }
+    final Entity[] localEntities = this.entities.toArray(Entity[]::new);
 
-    for (final Entity entity : this.entities) {
+    for (final Entity entity : localEntities) {
       entity.update();
     }
 

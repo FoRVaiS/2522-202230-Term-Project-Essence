@@ -2,6 +2,7 @@ package ca.bcit.comp2522.termproject.essence;
 
 import java.util.HashMap;
 
+import ca.bcit.comp2522.termproject.essence.entities.PelletProjectile;
 import ca.bcit.comp2522.termproject.essence.interfaces.Controller;
 import ca.bcit.comp2522.termproject.essence.interfaces.LogicComponent;
 import ca.bcit.comp2522.termproject.essence.interfaces.Possessable;
@@ -38,17 +39,30 @@ public abstract class Entity implements LogicComponent, Possessable {
    */
   protected Controller controller;
 
+  private final Group layer;
+
   private final Sprite sprite;
+
+  private final World world;
+
+  private double rotation = 0;
 
   /**
    * Creates an instance to represent an object in the world.
    *
+   * @param world    reference to the world
    * @param sprite   sprite to represent the entity
+   * @param layer    the layer the entity sprite should reside in
    * @param position the position of the entity
    */
-  public Entity(final Sprite sprite, final Vec2D position) {
+  public Entity(final World world, final Sprite sprite, final Group layer, final Vec2D position) {
+    this.world = world;
     this.sprite = sprite;
+    this.layer = layer;
     this.position = position;
+
+    this.sprite.setPosition(position);
+    this.sprite.update();
 
     this.setStats();
   }
@@ -90,9 +104,34 @@ public abstract class Entity implements LogicComponent, Possessable {
   }
 
   /**
+   * Returns the world the entity belongs to.
+   *
+   * @return the world the entity belongs to
+   */
+  protected World getWorld() {
+    return this.world;
+  }
+
+  /**
    * Sets the entity's default stats.
    */
   protected abstract void setStats();
+
+  /**
+   * Spawns a projectile with a heading.
+   *
+   * @param projectile instance of a projectile to spawn
+   * @param vector     projectile's movement vector
+   */
+  protected void spawnProjectile(final Projectile projectile, final Vec2D vector) {
+    this.getWorld().spawn(projectile, new Vec2D(-this.getX(), -this.getY()));
+
+    final double velocity = vector.getX();
+    final double heading = vector.getY();
+
+    projectile.setHeading(heading);
+    projectile.setVelocity(velocity);
+  }
 
   /**
    * Update's the entity's logic components.
@@ -105,14 +144,38 @@ public abstract class Entity implements LogicComponent, Possessable {
   }
 
   /**
-   * Renders the entity on screen.
+   * Sets the position of the entity.
    *
-   * @param layer layer to render on
+   * @param position the new position of the entity
    */
-  public void render(final Group layer) {
-    if (!layer.getChildren().contains(this.sprite.getView())) {
-      layer.getChildren().add(this.sprite.getView());
+  public void setPosition(final Vec2D position) {
+    this.position.setX(position.getX());
+    this.position.setY(position.getY());
+  }
+
+  /**
+   * Renders the entity on screen.
+   */
+  public void render() {
+    if (!this.layer.getChildren().contains(this.sprite.getView())) {
+      this.layer.getChildren().add(this.sprite.getView());
     }
+  }
+
+  /**
+   * Shoots a projectile.
+   *
+   * @param flag a placeholder value for the consumer
+   */
+  public void shoot(final double flag) {
+    final Vec2D projectilePos = new Vec2D(-this.getX(), -this.getY());
+    final Projectile projectile = new PelletProjectile(this.getWorld(), this, projectilePos);
+
+    final double velocity = 8.0;
+    final double heading = -this.rotation;
+    final Vec2D vector = new Vec2D(velocity, heading);
+
+    this.spawnProjectile(projectile, vector);
   }
 
   /**
@@ -126,6 +189,17 @@ public abstract class Entity implements LogicComponent, Possessable {
 
     this.controller.bindAxis(Controller.Events.MOVE_X, this::moveX);
     this.controller.bindAxis(Controller.Events.MOVE_Y, this::moveY);
+    this.controller.bindAction(Controller.Events.ATTACK, this::shoot);
+
+    this.controller.bindMouseMove(mousePosition -> {
+      final double mouseX = mousePosition.getX();
+      final double mouseY = mousePosition.getY();
+
+      final double fullCircle = 2 * Math.PI;
+      final double radians = (Math.atan2(mouseY, mouseX) + fullCircle) % fullCircle;
+
+      this.rotation = radians;
+    });
   }
 
   /**
