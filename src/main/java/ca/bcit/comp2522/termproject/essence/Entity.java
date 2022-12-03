@@ -151,6 +151,17 @@ public abstract class Entity implements LogicComponent, Possessable {
 
     this.controller.bindAxis(Controller.Events.MOVE_X, this::moveX);
     this.controller.bindAxis(Controller.Events.MOVE_Y, this::moveY);
+    this.controller.bindAction(Controller.Events.ATTACK, this::shoot);
+
+    this.controller.bindMouseMove(mousePosition -> {
+      final double mouseX = mousePosition.getX();
+      final double mouseY = mousePosition.getY();
+
+      final double fullCircle = 2 * Math.PI;
+      final double radians = (Math.atan2(mouseY, mouseX) + fullCircle) % fullCircle;
+
+      this.rotation = radians;
+    });
   }
 
   /**
