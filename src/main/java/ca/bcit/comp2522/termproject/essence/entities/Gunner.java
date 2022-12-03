@@ -1,7 +1,9 @@
 package ca.bcit.comp2522.termproject.essence.entities;
 
 import ca.bcit.comp2522.termproject.essence.Entity;
+import ca.bcit.comp2522.termproject.essence.Layers;
 import ca.bcit.comp2522.termproject.essence.Vec2D;
+import ca.bcit.comp2522.termproject.essence.World;
 import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
 
 /**
@@ -18,9 +20,11 @@ public class Gunner extends Entity {
 
     /**
      * Creates a new gunner entity.
+     *
+     * @param world reference to the world
      */
-    public Gunner() {
-        super(new BrickTileSprite(), new Vec2D());
+    public Gunner(final World world) {
+        super(world, new BrickTileSprite(), Layers.FOREGROUND_LAYER, new Vec2D());
     }
 
     /**
