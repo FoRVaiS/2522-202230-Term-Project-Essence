@@ -127,7 +127,7 @@ public abstract class Entity implements LogicComponent, Possessable {
    * @param vector     projectile's movement vector
    */
   protected void spawnProjectile(final Projectile projectile, final Vec2D vector) {
-    this.getWorld().spawn(projectile, new Vec2D(-this.getX(), -this.getY()));
+    this.getWorld().spawn(projectile, new Vec2D(this.getX(), this.getY()));
 
     final double velocity = vector.getX();
     final double heading = vector.getY();
@@ -179,7 +179,7 @@ public abstract class Entity implements LogicComponent, Possessable {
    * @param flag a placeholder value for the consumer
    */
   public void shoot(final double flag) {
-    final Vec2D projectilePos = new Vec2D(-this.getX(), -this.getY());
+    final Vec2D projectilePos = new Vec2D(this.getX(), this.getY());
     final Projectile projectile = new PelletProjectile(this.getWorld(), this, projectilePos);
 
     final double velocity = 8.0;
