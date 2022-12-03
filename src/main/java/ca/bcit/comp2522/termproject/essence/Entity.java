@@ -58,6 +58,9 @@ public abstract class Entity implements LogicComponent, Possessable {
     this.layer = layer;
     this.position = position;
 
+    this.sprite.setPosition(position);
+    this.sprite.update();
+
     this.setStats();
   }
 
