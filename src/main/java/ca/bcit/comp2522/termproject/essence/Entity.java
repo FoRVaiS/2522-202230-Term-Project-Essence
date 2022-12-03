@@ -141,6 +141,7 @@ public abstract class Entity implements LogicComponent, Possessable {
     final Vec2D newSpritePosition = new Vec2D(this.getX(), this.getY());
     this.sprite.setPosition(newSpritePosition);
     this.sprite.update();
+    this.controller.update();
   }
 
   /**
