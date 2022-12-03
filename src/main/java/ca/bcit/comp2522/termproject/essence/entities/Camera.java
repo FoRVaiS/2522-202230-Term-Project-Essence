@@ -38,8 +38,8 @@ public class Camera {
    * @param position new camera position
    */
   public void update(final Vec2D position) {
-    final double screenWidthHalf = Layers.PLAYER_LAYER.getScene().getWidth() / 2;
-    final double screenHeightHalf = Layers.PLAYER_LAYER.getScene().getHeight() / 2;
+    final double screenWidthHalf = Math.ceil(Layers.PLAYER_LAYER.getScene().getWidth() / 2);
+    final double screenHeightHalf = Math.ceil(Layers.PLAYER_LAYER.getScene().getHeight() / 2);
 
     this.moveX(-position.getX() + screenWidthHalf);
     this.moveY(-position.getY() + screenHeightHalf);
