@@ -18,5 +18,8 @@ public final class Layers {
   /** The foreground layer containing only the player of the scene. */
   public static final Group PLAYER_LAYER = new Group();
 
+  /** The foreground layer containing only the camera. */
+  public static final Group CAMERA_LAYER = new Group();
+
   private Layers() { }
 }
