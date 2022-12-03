@@ -115,11 +115,9 @@ public class World implements LogicComponent {
   public void update() {
     final Entity player = Player.getPlayer(this);
 
-    for (final LogicComponent child : this.logicalChildren) {
-      child.update();
-    }
+    final Entity[] localEntities = this.entities.toArray(Entity[]::new);
 
-    for (final Entity entity : this.entities) {
+    for (final Entity entity : localEntities) {
       entity.update();
     }
 
