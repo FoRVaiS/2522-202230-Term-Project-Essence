@@ -2,6 +2,7 @@ package ca.bcit.comp2522.termproject.essence;
 
 import java.util.HashMap;
 
+import ca.bcit.comp2522.termproject.essence.entities.Camera;
 import ca.bcit.comp2522.termproject.essence.entities.PelletProjectile;
 import ca.bcit.comp2522.termproject.essence.interfaces.Controller;
 import ca.bcit.comp2522.termproject.essence.interfaces.LogicComponent;
@@ -44,6 +45,8 @@ public abstract class Entity implements LogicComponent, Possessable {
   private final Sprite sprite;
 
   private final World world;
+
+  private Camera camera;
 
   private double rotation = 0;
 
@@ -139,6 +142,14 @@ public abstract class Entity implements LogicComponent, Possessable {
   @Override
   public void update() {
     final Vec2D newSpritePosition = new Vec2D(this.getX(), this.getY());
+    if (this.camera != null) {
+      this.camera.update(newSpritePosition);
+    }
+
+    if (this.controller != null) {
+      this.controller.update();
+    }
+
     this.sprite.setPosition(newSpritePosition);
     this.sprite.update();
   }
@@ -176,6 +187,15 @@ public abstract class Entity implements LogicComponent, Possessable {
     final Vec2D vector = new Vec2D(velocity, heading);
 
     this.spawnProjectile(projectile, vector);
+  }
+
+  /**
+   * Binds a camera to the entity.
+   *
+   * @param camera camera to track entity
+   */
+  public void setCamera(final Camera camera) {
+    this.camera = camera;
   }
 
   /**

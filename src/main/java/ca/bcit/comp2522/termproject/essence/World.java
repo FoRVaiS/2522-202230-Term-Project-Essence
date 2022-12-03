@@ -3,6 +3,7 @@ package ca.bcit.comp2522.termproject.essence;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ca.bcit.comp2522.termproject.essence.entities.Camera;
 import ca.bcit.comp2522.termproject.essence.entities.Player;
 import ca.bcit.comp2522.termproject.essence.interfaces.LogicComponent;
 import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
@@ -22,13 +23,17 @@ public class World implements LogicComponent {
    * Creates an instance of the world.
    */
   public World() {
-    this.spawn(Player.getPlayer(this), new Vec2D());
+    final Entity player = Player.getPlayer(this);
+    final Camera camera = new Camera();
+    player.setCamera(camera);
+
+    this.spawn(player, new Vec2D());
     this.update();
   }
 
   /**
    * Spawns an entity into the world at a given position.
-   * 
+   *
    * @param ent      entity to spawn
    * @param position position to spawn entity at
    */
@@ -122,6 +127,6 @@ public class World implements LogicComponent {
     }
 
     final int renderDistance = 2000;
-    this.updateChunks(-player.getX(), -player.getY(), renderDistance);
+    this.updateChunks(player.getX(), player.getY(), renderDistance);
   }
 }
