@@ -32,18 +32,6 @@ public class Window extends Application {
      */
     @Override
     public void start(final Stage stage) {
-        stage.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            Layers.BACKGROUND_LAYER.setTranslateX(newWidth.intValue() / 2);
-            Layers.FOREGROUND_LAYER.setTranslateX(newWidth.intValue() / 2);
-            Layers.PLAYER_LAYER.setTranslateX(newWidth.intValue() / 2);
-        });
-
-        stage.heightProperty().addListener((obs, oldHeight, newHeight) -> {
-            Layers.BACKGROUND_LAYER.setTranslateY(newHeight.intValue() / 2);
-            Layers.FOREGROUND_LAYER.setTranslateY(newHeight.intValue() / 2);
-            Layers.PLAYER_LAYER.setTranslateY(newHeight.intValue() / 2);
-        });
-
         stage.setTitle("Essence");
         stage.setScene(new Scene(new Group(
                 Layers.BACKGROUND_LAYER,
