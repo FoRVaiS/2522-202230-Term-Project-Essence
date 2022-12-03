@@ -33,7 +33,7 @@ public class World implements LogicComponent {
 
   /**
    * Spawns an entity into the world at a given position.
-   * 
+   *
    * @param ent      entity to spawn
    * @param position position to spawn entity at
    */
@@ -127,6 +127,6 @@ public class World implements LogicComponent {
     }
 
     final int renderDistance = 2000;
-    this.updateChunks(-player.getX(), -player.getY(), renderDistance);
+    this.updateChunks(player.getX(), player.getY(), renderDistance);
   }
 }
