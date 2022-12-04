@@ -66,7 +66,11 @@ public abstract class Entity implements LogicComponent, Possessable {
     this.layer = layer;
     this.position = position;
 
-    this.sprite.setPosition(position);
+    final Vec2D spritePosition = new Vec2D(
+        position.getX() - this.getWidth() / 2,
+        position.getY() - this.getHeight() / 2);
+
+    this.sprite.setPosition(spritePosition);
     this.sprite.update(0);
 
     this.setStats();
@@ -118,6 +122,20 @@ public abstract class Entity implements LogicComponent, Possessable {
   }
 
   /**
+   * Returns the entity's width.
+   */
+  public double getWidth() {
+    return this.sprite.getView().getImage().getWidth();
+  }
+
+  /**
+   * Returns the entity's width.
+   */
+  public double getHeight() {
+    return this.sprite.getView().getImage().getHeight();
+  }
+
+  /**
    * Sets the entity's default stats.
    */
   protected abstract void setStats();
@@ -145,9 +163,12 @@ public abstract class Entity implements LogicComponent, Possessable {
    */
   @Override
   public void update(final long deltaTime) {
-    final Vec2D newSpritePosition = new Vec2D(this.getX(), this.getY());
+    final Vec2D newSpritePosition = new Vec2D(
+        this.position.getX() - this.getWidth() / 2,
+        this.position.getY() - this.getHeight() / 2);
+
     if (this.camera != null) {
-      this.camera.update(newSpritePosition);
+      this.camera.update(new Vec2D(this.getX(), this.getY()));
     }
 
     if (this.controller != null) {
