@@ -156,8 +156,6 @@ public abstract class Sprite implements LogicComponent {
   public void update(final long deltaTime) {
     view.setX(this.position.getX());
     view.setY(this.position.getY());
-    view.setScaleX(scale);
-    view.setScaleY(scale);
     view.setRotate(radians);
   }
 

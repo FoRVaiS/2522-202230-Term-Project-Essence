@@ -88,6 +88,8 @@ public abstract class Entity implements LogicComponent, Possessable {
    */
   public void moveX(final double xDir) {
     this.position.setX(this.getX() + xDir * this.stats.get(Stats.SPEED));
+
+    this.sprite.getView().setScaleX(xDir);
   }
 
   /**
