@@ -2,8 +2,6 @@ package ca.bcit.comp2522.termproject.essence;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -49,8 +47,8 @@ public class Window extends Application {
                 stage.centerOnScreen();
             }
         });
-        final int tickrate = 120;
-        final EventHandler<ActionEvent> game = new Game(tickrate);
+
+        new Game();
     }
 
     /**
