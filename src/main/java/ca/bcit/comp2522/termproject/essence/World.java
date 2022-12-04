@@ -2,8 +2,11 @@ package ca.bcit.comp2522.termproject.essence;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import ca.bcit.comp2522.termproject.essence.entities.Camera;
+import ca.bcit.comp2522.termproject.essence.entities.Gunner;
+import ca.bcit.comp2522.termproject.essence.entities.Hunter;
 import ca.bcit.comp2522.termproject.essence.entities.Player;
 import ca.bcit.comp2522.termproject.essence.interfaces.LogicComponent;
 import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
@@ -15,6 +18,7 @@ import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
  * @version 0.1.0
  */
 public class World implements LogicComponent {
+  private final double SPAWN_BOUNDARY = 0.02;
   private final HashMap<Integer, Chunk> chunks = new HashMap<>();
   private final ArrayList<LogicComponent> logicalChildren = new ArrayList<>();
   private final ArrayList<Entity> entities = new ArrayList<>();
@@ -75,6 +79,15 @@ public class World implements LogicComponent {
         Chunk chunk;
 
         if (!chunks.containsKey(chunkId)) {
+          final Random random = new Random();
+          final double spawnChance = random.nextDouble(0, 1);
+          if (spawnChance <= SPAWN_BOUNDARY) {
+            final int spawn = random.nextInt(0, 1);
+            switch (spawn) {
+              case 0 -> this.spawn(new Hunter(this), new Vec2D(chunkPosX, chunkPosY));
+              case 1 -> this.spawn(new Gunner(this), new Vec2D(chunkPosX, chunkPosY));
+            }
+          }
           chunk = new Chunk(new BrickTileSprite(), chunkPosX, chunkPosY);
           this.chunks.put(chunkId, chunk);
         } else {

@@ -5,6 +5,7 @@ import ca.bcit.comp2522.termproject.essence.Layers;
 import ca.bcit.comp2522.termproject.essence.Vec2D;
 import ca.bcit.comp2522.termproject.essence.World;
 import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
+import ca.bcit.comp2522.termproject.essence.sprites.PelletProjectileSprite;
 
 /**
  * The hunter entity.
@@ -27,7 +28,7 @@ public class Hunter extends Entity {
      * @param world reference to the world
      */
     public Hunter(final World world) {
-        super(world, new BrickTileSprite(), Layers.FOREGROUND_LAYER, new Vec2D());
+        super(world, new PelletProjectileSprite(), Layers.FOREGROUND_LAYER, new Vec2D());
     }
 
     /**
