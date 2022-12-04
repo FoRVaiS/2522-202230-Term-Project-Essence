@@ -27,7 +27,7 @@ public class Game {
       public void handle(final long currentNanoTime) {
         final long deltaTime = System.currentTimeMillis() - lastMsTime;
 
-        world.update(0);
+        world.update(deltaTime);
         lastMsTime += deltaTime;
         frameTime += deltaTime;
 
