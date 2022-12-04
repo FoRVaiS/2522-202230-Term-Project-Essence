@@ -55,10 +55,12 @@ public class Projectile extends Entity {
 
   /**
    * Updates the projectile's logic.
+   *
+   * @param deltaTime time since last tick
    */
   @Override
-  public void update() {
-    super.update();
+  public void update(final long deltaTime) {
+    super.update(deltaTime);
 
     final double deltaX = Math.cos(this.heading);
     final double deltaY = Math.sin(this.heading);

@@ -1,10 +1,6 @@
 package ca.bcit.comp2522.termproject.essence;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.util.Duration;
+import javafx.animation.AnimationTimer;
 
 /**
  * Manages and updates game components.
@@ -12,57 +8,37 @@ import javafx.util.Duration;
  * @author Benjamin Chiang
  * @version 0.1.0
  */
-public class Game implements EventHandler<ActionEvent> {
-  private final Timeline gameLoop;
-
-  private final World world;
-
+public class Game {
   /**
    * Creates a new instance of the game.
-   *
-   * @param tickrate frequency of game updates
    */
-  public Game(final int tickrate) {
-    this.world = new World();
+  public Game() {
+    final World world = new World();
 
-    this.gameLoop = new Timeline();
-    this.startGameLoop(tickrate);
-  }
+    // Conversion Factors
+    final int msPerSecond = 1000;
 
-  /**
-   * Creates a game loop.
-   *
-   * @param tickrate frequency of game updates
-   */
-  private void startGameLoop(final int tickrate) {
-    final int milliPerSecond = 1000; // ms / second
+    // Game Loop
+    new AnimationTimer() {
+      long lastMsTime = System.currentTimeMillis();
+      long frameTime = 0;
+      int frames;
 
-    // Update Frequency
-    final double msPerTick = milliPerSecond / tickrate;
+      public void handle(final long currentNanoTime) {
+        final long deltaTime = System.currentTimeMillis() - lastMsTime;
 
-    // The amount of milliseconds per frame wrapped in a Duration object
-    final Duration msPerFrame = Duration.millis(msPerTick);
+        world.update(deltaTime);
+        lastMsTime += deltaTime;
+        frameTime += deltaTime;
 
-    // Create a keyframe for the timeline
-    final KeyFrame frame = new KeyFrame(msPerFrame, this);
+        if (frameTime >= msPerSecond) {
+          System.out.printf("[Frames %d]\n", frames);
+          frameTime -= msPerSecond;
+          frames = 0;
+        }
 
-    // Add the keyframe to the timeline
-    this.gameLoop.getKeyFrames().add(frame);
-
-    // Loop the timeline when it reaches the end
-    this.gameLoop.setCycleCount(Timeline.INDEFINITE);
-
-    // Start the timeline
-    this.gameLoop.play();
-  }
-
-  /**
-   * Handler method that is invoked based on the game update frequency.
-   *
-   * @param event a generic action event
-   */
-  @Override
-  public void handle(final ActionEvent event) {
-    this.world.update();
+        frames++;
+      }
+    }.start();
   }
 }

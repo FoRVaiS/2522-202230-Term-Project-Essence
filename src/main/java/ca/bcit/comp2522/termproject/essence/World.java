@@ -32,7 +32,7 @@ public class World implements LogicComponent {
     player.setCamera(camera);
 
     this.spawn(player, new Vec2D());
-    this.update();
+    this.update(0);
   }
 
   /**
@@ -128,15 +128,17 @@ public class World implements LogicComponent {
 
   /**
    * Updates all logical components in the world.
+   *
+   * @param deltaTime time since last tick
    */
   @Override
-  public void update() {
+  public void update(final long deltaTime) {
     final Entity player = Player.getPlayer(this);
 
     final Entity[] localEntities = this.entities.toArray(Entity[]::new);
 
     for (final Entity entity : localEntities) {
-      entity.update();
+      entity.update(deltaTime);
     }
 
     final int renderDistance = 2000;

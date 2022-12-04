@@ -48,6 +48,8 @@ public abstract class Entity implements LogicComponent, Possessable {
 
   private Camera camera;
 
+  private long cooldown = 0;
+
   private double rotation = 0;
 
   /**
@@ -65,7 +67,7 @@ public abstract class Entity implements LogicComponent, Possessable {
     this.position = position;
 
     this.sprite.setPosition(position);
-    this.sprite.update();
+    this.sprite.update(0);
 
     this.setStats();
   }
@@ -138,9 +140,11 @@ public abstract class Entity implements LogicComponent, Possessable {
 
   /**
    * Update's the entity's logic components.
+   *
+   * @param deltaTime time since last tick
    */
   @Override
-  public void update() {
+  public void update(final long deltaTime) {
     final Vec2D newSpritePosition = new Vec2D(this.getX(), this.getY());
     if (this.camera != null) {
       this.camera.update(newSpritePosition);
@@ -150,8 +154,12 @@ public abstract class Entity implements LogicComponent, Possessable {
       this.controller.update();
     }
 
+    if (this.cooldown > 0) {
+      this.cooldown = Math.max(0, this.cooldown - deltaTime);
+    }
+
     this.sprite.setPosition(newSpritePosition);
-    this.sprite.update();
+    this.sprite.update(deltaTime);
   }
 
   /**
@@ -186,7 +194,10 @@ public abstract class Entity implements LogicComponent, Possessable {
     final double heading = -this.rotation;
     final Vec2D vector = new Vec2D(velocity, heading);
 
-    this.spawnProjectile(projectile, vector);
+    if (this.cooldown == 0) {
+      this.spawnProjectile(projectile, vector);
+      this.cooldown = 150;
+    }
   }
 
   /**
