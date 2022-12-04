@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import ca.bcit.comp2522.termproject.essence.entities.Camera;
 import ca.bcit.comp2522.termproject.essence.entities.PelletProjectile;
+import ca.bcit.comp2522.termproject.essence.interfaces.Collidable;
 import ca.bcit.comp2522.termproject.essence.interfaces.Controller;
 import ca.bcit.comp2522.termproject.essence.interfaces.LogicComponent;
 import ca.bcit.comp2522.termproject.essence.interfaces.Possessable;
@@ -15,7 +16,7 @@ import javafx.scene.Group;
  * @author Benjamin Chiang
  * @version 0.1.0
  */
-public abstract class Entity implements LogicComponent, Possessable {
+public abstract class Entity implements LogicComponent, Possessable, Collidable<Entity> {
   /**
    * Entity Stats.
    */
@@ -155,6 +156,14 @@ public abstract class Entity implements LogicComponent, Possessable {
     projectile.setHeading(heading);
     projectile.setVelocity(velocity);
   }
+
+  /**
+   * Fires when this entity collides with another entity.
+   *
+   * @param otherEnt the colliding entity
+   */
+  @Override
+  public abstract void onCollision(final Entity otherEnt);
 
   /**
    * Update's the entity's logic components.
