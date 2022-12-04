@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import ca.bcit.comp2522.termproject.essence.entities.Camera;
 import ca.bcit.comp2522.termproject.essence.entities.PelletProjectile;
+import ca.bcit.comp2522.termproject.essence.interfaces.Collidable;
 import ca.bcit.comp2522.termproject.essence.interfaces.Controller;
 import ca.bcit.comp2522.termproject.essence.interfaces.LogicComponent;
 import ca.bcit.comp2522.termproject.essence.interfaces.Possessable;
@@ -15,7 +16,7 @@ import javafx.scene.Group;
  * @author Benjamin Chiang
  * @version 0.1.0
  */
-public abstract class Entity implements LogicComponent, Possessable {
+public abstract class Entity implements LogicComponent, Possessable, Collidable<Entity> {
   /**
    * Entity Stats.
    */
@@ -66,7 +67,11 @@ public abstract class Entity implements LogicComponent, Possessable {
     this.layer = layer;
     this.position = position;
 
-    this.sprite.setPosition(position);
+    final Vec2D spritePosition = new Vec2D(
+        position.getX() - this.getWidth() / 2,
+        position.getY() - this.getHeight() / 2);
+
+    this.sprite.setPosition(spritePosition);
     this.sprite.update(0);
 
     this.setStats();
@@ -118,6 +123,20 @@ public abstract class Entity implements LogicComponent, Possessable {
   }
 
   /**
+   * Returns the entity's width.
+   */
+  public double getWidth() {
+    return this.sprite.getView().getImage().getWidth();
+  }
+
+  /**
+   * Returns the entity's width.
+   */
+  public double getHeight() {
+    return this.sprite.getView().getImage().getHeight();
+  }
+
+  /**
    * Sets the entity's default stats.
    */
   protected abstract void setStats();
@@ -139,15 +158,28 @@ public abstract class Entity implements LogicComponent, Possessable {
   }
 
   /**
+   * Fires when this entity collides with another entity.
+   *
+   * @param otherEnt the colliding entity
+   */
+  @Override
+  public void onCollision(final Entity otherEnt) {
+
+  };
+
+  /**
    * Update's the entity's logic components.
    *
    * @param deltaTime time since last tick
    */
   @Override
   public void update(final long deltaTime) {
-    final Vec2D newSpritePosition = new Vec2D(this.getX(), this.getY());
+    final Vec2D newSpritePosition = new Vec2D(
+        this.position.getX() - this.getWidth() / 2,
+        this.position.getY() - this.getHeight() / 2);
+
     if (this.camera != null) {
-      this.camera.update(newSpritePosition);
+      this.camera.update(new Vec2D(this.getX(), this.getY()));
     }
 
     if (this.controller != null) {
