@@ -141,6 +141,8 @@ public class World implements LogicComponent {
       entity.update(deltaTime);
     }
 
+    Collision.intersect(entities);
+
     final int renderDistance = 2000;
     this.updateChunks(player.getX(), player.getY(), renderDistance);
   }
