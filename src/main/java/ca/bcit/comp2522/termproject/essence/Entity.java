@@ -65,7 +65,7 @@ public abstract class Entity implements LogicComponent, Possessable {
     this.position = position;
 
     this.sprite.setPosition(position);
-    this.sprite.update();
+    this.sprite.update(0);
 
     this.setStats();
   }
@@ -138,9 +138,11 @@ public abstract class Entity implements LogicComponent, Possessable {
 
   /**
    * Update's the entity's logic components.
+   *
+   * @param deltaTime time since last tick
    */
   @Override
-  public void update() {
+  public void update(final long deltaTime) {
     final Vec2D newSpritePosition = new Vec2D(this.getX(), this.getY());
     if (this.camera != null) {
       this.camera.update(newSpritePosition);
@@ -151,7 +153,7 @@ public abstract class Entity implements LogicComponent, Possessable {
     }
 
     this.sprite.setPosition(newSpritePosition);
-    this.sprite.update();
+    this.sprite.update(deltaTime);
   }
 
   /**

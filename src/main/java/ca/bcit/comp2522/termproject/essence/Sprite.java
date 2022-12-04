@@ -79,7 +79,7 @@ public abstract class Sprite implements LogicComponent {
     this.position = position;
     this.scale = scale;
     this.radians = radians;
-    this.update();
+    this.update(0);
   }
 
   /**
@@ -149,9 +149,11 @@ public abstract class Sprite implements LogicComponent {
 
   /**
    * Updates the sprite's properties.
+   *
+   * @param deltaTime time since last tick
    */
   @Override
-  public void update() {
+  public void update(final long deltaTime) {
     view.setX(this.position.getX());
     view.setY(this.position.getY());
     view.setScaleX(scale);

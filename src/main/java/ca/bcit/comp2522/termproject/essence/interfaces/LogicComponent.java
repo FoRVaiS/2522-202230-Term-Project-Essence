@@ -9,6 +9,8 @@ package ca.bcit.comp2522.termproject.essence.interfaces;
 public interface LogicComponent {
   /**
    * Updates the component.
+   *
+   * @param deltaTime time since last tick
    */
-  void update();
+  void update(long deltaTime);
 }
