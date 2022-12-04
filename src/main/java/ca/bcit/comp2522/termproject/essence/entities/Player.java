@@ -4,7 +4,7 @@ import ca.bcit.comp2522.termproject.essence.Entity;
 import ca.bcit.comp2522.termproject.essence.Layers;
 import ca.bcit.comp2522.termproject.essence.World;
 import ca.bcit.comp2522.termproject.essence.controllers.PlayerController;
-import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
+import ca.bcit.comp2522.termproject.essence.sprites.PlayerSprite;
 
 /**
  * The player entity.
@@ -25,7 +25,7 @@ public final class Player extends Entity {
    * @param world reference to the world
    */
   private Player(final World world) {
-    super(world, new BrickTileSprite(), Layers.PLAYER_LAYER);
+    super(world, new PlayerSprite(), Layers.PLAYER_LAYER);
 
     this.setStat(Entity.Stats.HEALTH, this.defaultHealth);
     this.setStat(Entity.Stats.DAMAGE, this.defaultDamage);
