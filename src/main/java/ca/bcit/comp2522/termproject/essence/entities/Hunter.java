@@ -3,6 +3,7 @@ package ca.bcit.comp2522.termproject.essence.entities;
 import ca.bcit.comp2522.termproject.essence.Entity;
 import ca.bcit.comp2522.termproject.essence.Layers;
 import ca.bcit.comp2522.termproject.essence.World;
+import ca.bcit.comp2522.termproject.essence.controllers.AiController;
 import ca.bcit.comp2522.termproject.essence.sprites.PlayerSprite;
 
 /**
@@ -14,7 +15,7 @@ import ca.bcit.comp2522.termproject.essence.sprites.PlayerSprite;
 public class Hunter extends Entity {
     private final double defaultHunterHealth = 50.0;
     private final double defaultHunterDamage = 25.0;
-    private final double defaultHunterSpeed = 12.0;
+    private final double defaultHunterSpeed = 7.0;
 
     /**
      * Creates a new gunner entity.
@@ -22,10 +23,12 @@ public class Hunter extends Entity {
      * @param world reference to the world
      */
     public Hunter(final World world) {
-        super(world, new PlayerSprite(), Layers.FOREGROUND_LAYER);
+        super(world, new PlayerSprite(), Entity.Teams.ENEMY, Layers.FOREGROUND_LAYER);
 
         this.setStat(Entity.Stats.HEALTH, defaultHunterHealth);
         this.setStat(Entity.Stats.DAMAGE, defaultHunterDamage);
         this.setStat(Entity.Stats.SPEED, defaultHunterSpeed);
+
+        this.possess(new AiController(this));
     }
 }

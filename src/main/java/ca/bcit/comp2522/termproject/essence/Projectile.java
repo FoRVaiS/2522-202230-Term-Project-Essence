@@ -11,6 +11,7 @@ import java.util.Objects;
  * @version 0.1.0
  */
 public class Projectile extends Entity {
+  private long lifetime;
   private double heading;
 
   /**
@@ -18,10 +19,11 @@ public class Projectile extends Entity {
    *
    * @param world  the world the projectile is in
    * @param sprite projectile sprite
+   * @param team   the team the projectile belongs to
    * @param layer  layer to render on
    */
-  public Projectile(final World world, final Sprite sprite, final Group layer) {
-    super(world, sprite, Layers.FOREGROUND_LAYER);
+  public Projectile(final World world, final Sprite sprite, final Teams team, final Group layer) {
+    super(world, sprite, team, Layers.FOREGROUND_LAYER);
   }
 
   /**
@@ -43,6 +45,21 @@ public class Projectile extends Entity {
   }
 
   /**
+   * Fires when this entity collides with another entity.
+   *
+   * @param otherEnt the colliding entity
+   */
+  @Override
+  public void onCollision(final Entity otherEnt) {
+    super.onCollision(otherEnt);
+
+    if (otherEnt.getTeam() != this.getTeam()) {
+      otherEnt.destroy();
+      this.destroy();
+    }
+  }
+
+  /**
    * Updates the projectile's logic.
    *
    * @param deltaTime time since last tick
@@ -56,6 +73,13 @@ public class Projectile extends Entity {
 
     this.moveX(deltaX);
     this.moveY(deltaY);
+
+    final long maxLifetime = 6_000;
+    lifetime += deltaTime;
+
+    if (lifetime >= maxLifetime) {
+      this.destroy();
+    }
   }
 
   /**
@@ -75,7 +99,8 @@ public class Projectile extends Entity {
     }
 
     final Projectile that = (Projectile) obj;
-    return Double.compare(that.heading, heading) == 0;
+    return Double.compare(that.heading, heading) == 0
+        && Long.compare(that.lifetime, lifetime) == 0;
   }
 
   /**
@@ -85,7 +110,7 @@ public class Projectile extends Entity {
    */
   @Override
   public int hashCode() {
-    return Objects.hash(heading);
+    return Objects.hash(heading, lifetime);
   }
 
   /**
@@ -96,6 +121,7 @@ public class Projectile extends Entity {
   @Override
   public String toString() {
     return "Projectile{"
+        + "lifetime=" + lifetime
         + "heading=" + heading
         + '}';
   }

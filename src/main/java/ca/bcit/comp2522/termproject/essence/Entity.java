@@ -27,12 +27,21 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
     SPEED
   }
 
+  /**
+   * Entity Teams.
+   */
+  public enum Teams {
+    FRIENDLY,
+    ENEMY
+  }
+
   private final World world;
   private final Group layer;
 
   private final Sprite sprite;
   private final HashMap<Stats, Double> stats = new HashMap<>();
   private final Vec2D position = new Vec2D();
+  private final Teams team;
 
   private Camera camera;
   private Controller controller;
@@ -45,18 +54,16 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    *
    * @param world  reference to the world
    * @param sprite sprite to represent the entity
+   * @param team   the team the entity belongs to
    * @param layer  the layer the entity sprite should reside in
    */
-  public Entity(final World world, final Sprite sprite, final Group layer) {
+  public Entity(final World world, final Sprite sprite, final Teams team, final Group layer) {
     this.world = world;
     this.sprite = sprite;
+    this.team = team;
     this.layer = layer;
 
-    final Vec2D dimensions = new Vec2D(this.getWidth(), this.getHeight());
-    final Vec2D halfDimensions = Vec2D.divide(dimensions, new Vec2D(2, 2));
-    final Vec2D spritePosition = Vec2D.subtract(this.getPosition(), halfDimensions);
-
-    this.sprite.setPosition(spritePosition);
+    this.sprite.setPosition(this.getCentre());
   }
 
   /**
@@ -152,6 +159,15 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
   }
 
   /**
+   * Returns the entity's team.
+   *
+   * @return entity's team
+   */
+  public Teams getTeam() {
+    return this.team;
+  }
+
+  /**
    * Binds a camera to the entity.
    *
    * @param camera camera to track entity
@@ -179,14 +195,25 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
   }
 
   /**
+   * Returns the vector for the centre of the entity.
+   *
+   * @return the centre of the entity
+   */
+  public Vec2D getCentre() {
+    return new Vec2D(
+        this.position.getX() - this.getWidth() / 2,
+        this.position.getY() - this.getHeight() / 2);
+  }
+
+  /**
    * Shoots a projectile.
    *
    * @param flag a placeholder value for the consumer
    */
   public void shoot(final double flag) {
-    final Projectile projectile = new PelletProjectile(this.getWorld());
+    final Projectile projectile = new PelletProjectile(this.getWorld(), this.getTeam());
 
-    final double velocity = 8.0;
+    final double velocity = 20.0;
     final double heading = -this.rotation;
     final Vec2D vector = new Vec2D(velocity, heading);
 
@@ -221,7 +248,6 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    */
   @Override
   public void onCollision(final Entity otherEnt) {
-
   };
 
   /**
@@ -231,23 +257,19 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    */
   @Override
   public void update(final long deltaTime) {
-    final Vec2D newSpritePosition = new Vec2D(
-        this.position.getX() - this.getWidth() / 2,
-        this.position.getY() - this.getHeight() / 2);
-
     if (this.camera != null) {
       this.camera.update(this.getPosition());
     }
 
     if (this.controller != null) {
-      this.controller.update();
+      this.controller.update(deltaTime);
     }
 
     if (this.cooldown > 0) {
       this.cooldown = Math.max(0, this.cooldown - deltaTime);
     }
 
-    this.sprite.setPosition(newSpritePosition);
+    this.sprite.setPosition(this.getCentre());
   }
 
   /**
@@ -255,8 +277,17 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    */
   public void render() {
     if (!this.layer.getChildren().contains(this.sprite.getView())) {
+      this.sprite.setPosition(this.getCentre());
       this.layer.getChildren().add(this.sprite.getView());
     }
+  }
+
+  /**
+   * Destroys this entity.
+   */
+  public void destroy() {
+    this.world.despawn(this);
+    this.layer.getChildren().remove(this.sprite.getView());
   }
 
   /**
@@ -313,6 +344,7 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
         && Objects.equals(getSprite(), entity.getSprite())
         && Objects.equals(getStats(), entity.getStats())
         && Objects.equals(getPosition(), entity.getPosition())
+        && Objects.equals(getTeam(), entity.getTeam())
         && Objects.equals(camera, entity.camera)
         && Objects.equals(controller, entity.controller);
   }
@@ -324,7 +356,8 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    */
   @Override
   public int hashCode() {
-    return Objects.hash(getWorld(), layer, getSprite(), getStats(), getPosition(), camera, controller, cooldown,
+    return Objects.hash(getWorld(), layer, getSprite(), getStats(), getPosition(), getTeam(), camera, controller,
+        cooldown,
         rotation);
   }
 
@@ -341,6 +374,7 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
         + ", sprite=" + sprite
         + ", stats=" + stats
         + ", position=" + position
+        + ", team=" + team
         + ", camera=" + camera
         + ", controller=" + controller
         + ", cooldown=" + cooldown

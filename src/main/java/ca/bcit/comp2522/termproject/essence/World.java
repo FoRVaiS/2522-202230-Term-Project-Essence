@@ -50,6 +50,15 @@ public final class World implements LogicComponent {
   }
 
   /**
+   * Despawns an entity.
+   *
+   * @param ent entity to despawn
+   */
+  public void despawn(final Entity ent) {
+    this.entities.remove(ent);
+  }
+
+  /**
    * Spawns a random mob at a target location.
    *
    * @param position the position to spawn the mob at
@@ -57,7 +66,7 @@ public final class World implements LogicComponent {
   private void spawnMob(final Vec2D position) {
     final Random random = new Random();
 
-    final double spawnBoundary = 0.02;
+    final double spawnBoundary = 0.015;
     final double spawnChance = random.nextDouble(1);
 
     if (spawnChance <= spawnBoundary) {

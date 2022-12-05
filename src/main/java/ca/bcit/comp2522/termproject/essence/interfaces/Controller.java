@@ -3,7 +3,6 @@ package ca.bcit.comp2522.termproject.essence.interfaces;
 import java.util.function.Consumer;
 
 import ca.bcit.comp2522.termproject.essence.Vec2D;
-import javafx.scene.input.KeyCode;
 
 /**
  * An interface for unrelated entities to use bindings.
@@ -14,29 +13,12 @@ import javafx.scene.input.KeyCode;
 
 public interface Controller {
     /**
-     * Binds Action type keycode to event name.
-     *
-     * @param keyCode   controller's KeyCode in keycode
-     * @param eventName controller's Events as eventName
-     */
-    void bindActionKey(KeyCode keyCode, Events eventName);
-
-    /**
      * Binds an action to an event.
      *
      * @param eventName
      * @param actionHandler
      */
     void bindAction(Events eventName, Consumer<Double> actionHandler);
-
-    /**
-     * Binds AxisKey type keycode and events to a scale.
-     *
-     * @param keyCode   controller's KeyCode in keycode
-     * @param eventName controller's Events as eventName
-     * @param scale     controller's scale in integer
-     */
-    void bindAxisKey(KeyCode keyCode, Events eventName, Double scale);
 
     /**
      * Binds Axis type eventName to Double based handler.
@@ -55,8 +37,10 @@ public interface Controller {
 
     /**
      * Updates controller logic.
+     *
+     * @param deltaTime time since last tick
      */
-    void update();
+    void update(long deltaTime);
 
     /**
      * Default action event names for entity manipulation.

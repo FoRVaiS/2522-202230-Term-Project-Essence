@@ -44,7 +44,7 @@ public class PlayerController implements Controller {
         // mouse listener.
         this.scene.setOnMouseMoved(this::processMouseMove);
 
-        this.bindActionKey(KeyCode.F, Events.ATTACK);
+        this.bindActionKey(KeyCode.SPACE, Events.ATTACK);
 
         this.bindAxisKey(KeyCode.D, Events.MOVE_X, 1.0);
         this.bindAxisKey(KeyCode.A, Events.MOVE_X, -1.0);
@@ -63,7 +63,6 @@ public class PlayerController implements Controller {
      * @param keyCode   the key code
      * @param eventName name of the event
      */
-    @Override
     public void bindActionKey(final KeyCode keyCode, final Events eventName) {
         this.bindAxisKey(keyCode, eventName, 1.0);
     }
@@ -86,7 +85,6 @@ public class PlayerController implements Controller {
      * @param eventName controller's Events as eventName
      * @param scale     controller's scale in integer
      */
-    @Override
     public void bindAxisKey(final KeyCode keyCode, final Events eventName, final Double scale) {
         this.keyMap.put(keyCode, eventName);
         this.keyScaleMap.put(keyCode, scale);
@@ -156,8 +154,10 @@ public class PlayerController implements Controller {
 
     /**
      * Updates player controller logic.
+     *
+     * @param deltaTime time since last tick
      */
-    public void update() {
+    public void update(final long deltaTime) {
         for (KeyCode keyCode : state) {
             processInput(keyCode);
         }
