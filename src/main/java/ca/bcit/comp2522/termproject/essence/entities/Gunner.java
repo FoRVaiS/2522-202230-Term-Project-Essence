@@ -14,7 +14,7 @@ import ca.bcit.comp2522.termproject.essence.sprites.PlayerSprite;
 public class Gunner extends Entity {
     private final double defaultGunnerHealth = 60.0;
     private final double defaultGunnerDamage = 15.0;
-    private final double defaultGunnerSpeed = 12.0;
+    private final double defaultGunnerSpeed = 5.0;
 
     /**
      * Creates a new gunner entity.

@@ -14,7 +14,7 @@ import ca.bcit.comp2522.termproject.essence.sprites.PlayerSprite;
 public class Hunter extends Entity {
     private final double defaultHunterHealth = 50.0;
     private final double defaultHunterDamage = 25.0;
-    private final double defaultHunterSpeed = 12.0;
+    private final double defaultHunterSpeed = 7.0;
 
     /**
      * Creates a new gunner entity.
