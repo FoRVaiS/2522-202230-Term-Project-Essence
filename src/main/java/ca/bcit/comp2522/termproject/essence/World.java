@@ -50,6 +50,15 @@ public final class World implements LogicComponent {
   }
 
   /**
+   * Despawns an entity.
+   *
+   * @param ent entity to despawn
+   */
+  public void despawn(final Entity ent) {
+    this.entities.remove(ent);
+  }
+
+  /**
    * Spawns a random mob at a target location.
    *
    * @param position the position to spawn the mob at
