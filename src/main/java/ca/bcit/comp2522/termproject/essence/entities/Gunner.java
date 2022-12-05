@@ -3,6 +3,7 @@ package ca.bcit.comp2522.termproject.essence.entities;
 import ca.bcit.comp2522.termproject.essence.Entity;
 import ca.bcit.comp2522.termproject.essence.Layers;
 import ca.bcit.comp2522.termproject.essence.World;
+import ca.bcit.comp2522.termproject.essence.controllers.AiController;
 import ca.bcit.comp2522.termproject.essence.sprites.PlayerSprite;
 
 /**
@@ -27,5 +28,7 @@ public class Gunner extends Entity {
         this.setStat(Entity.Stats.HEALTH, defaultGunnerHealth);
         this.setStat(Entity.Stats.DAMAGE, defaultGunnerDamage);
         this.setStat(Entity.Stats.SPEED, defaultGunnerSpeed);
+
+        this.possess(new AiController(this));
     }
 }

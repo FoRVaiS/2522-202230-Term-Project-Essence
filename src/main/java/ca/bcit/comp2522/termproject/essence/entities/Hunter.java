@@ -3,6 +3,7 @@ package ca.bcit.comp2522.termproject.essence.entities;
 import ca.bcit.comp2522.termproject.essence.Entity;
 import ca.bcit.comp2522.termproject.essence.Layers;
 import ca.bcit.comp2522.termproject.essence.World;
+import ca.bcit.comp2522.termproject.essence.controllers.AiController;
 import ca.bcit.comp2522.termproject.essence.sprites.PlayerSprite;
 
 /**
@@ -27,5 +28,7 @@ public class Hunter extends Entity {
         this.setStat(Entity.Stats.HEALTH, defaultHunterHealth);
         this.setStat(Entity.Stats.DAMAGE, defaultHunterDamage);
         this.setStat(Entity.Stats.SPEED, defaultHunterSpeed);
+
+        this.possess(new AiController(this));
     }
 }
