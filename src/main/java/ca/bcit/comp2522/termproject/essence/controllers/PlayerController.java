@@ -44,7 +44,7 @@ public class PlayerController implements Controller {
         // mouse listener.
         this.scene.setOnMouseMoved(this::processMouseMove);
 
-        this.bindActionKey(KeyCode.F, Events.ATTACK);
+        this.bindActionKey(KeyCode.SPACE, Events.ATTACK);
 
         this.bindAxisKey(KeyCode.D, Events.MOVE_X, 1.0);
         this.bindAxisKey(KeyCode.A, Events.MOVE_X, -1.0);
