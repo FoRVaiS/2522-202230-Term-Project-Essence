@@ -35,6 +35,18 @@ public final class Player extends Entity {
   }
 
   /**
+   * Moves the player on the x-axis.
+   *
+   * @param xDir the direction to move on the x-axis
+   */
+  @Override
+  public void moveX(final double xDir) {
+    super.moveX(xDir);
+
+    this.getSprite().scaleX(xDir);
+  }
+
+  /**
    * Returns a single instance of the player.
    *
    * @param world reference to the world
