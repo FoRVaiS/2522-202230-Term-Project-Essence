@@ -131,7 +131,6 @@ public class World implements LogicComponent {
     }
   }
 
-  private int counter = 0;
   /**
    * Updates all logical components in the world.
    *
@@ -139,12 +138,6 @@ public class World implements LogicComponent {
    */
   @Override
   public void update(final long deltaTime) {
-    counter += deltaTime;
-    if (counter > 1000) {
-      counter = 0;
-      this.essenceBar.increaseProgress(1, 2000);
-    }
-
     final Entity player = Player.getPlayer(this);
 
     final Entity[] localEntities = this.entities.toArray(Entity[]::new);
