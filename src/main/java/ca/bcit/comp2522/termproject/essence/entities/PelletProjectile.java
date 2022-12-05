@@ -17,8 +17,9 @@ public class PelletProjectile extends Projectile {
    * Creates a pellet projectile.
    *
    * @param world reference to the world
+   * @param team  the team this projectile belongs to
    */
-  public PelletProjectile(final World world) {
-    super(world, new PelletProjectileSprite(), Layers.FOREGROUND_LAYER);
+  public PelletProjectile(final World world, final Teams team) {
+    super(world, new PelletProjectileSprite(), team, Layers.FOREGROUND_LAYER);
   }
 }

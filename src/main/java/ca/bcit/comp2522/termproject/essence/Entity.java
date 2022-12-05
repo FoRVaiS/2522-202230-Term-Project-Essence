@@ -204,7 +204,7 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    * @param flag a placeholder value for the consumer
    */
   public void shoot(final double flag) {
-    final Projectile projectile = new PelletProjectile(this.getWorld());
+    final Projectile projectile = new PelletProjectile(this.getWorld(), this.getTeam());
 
     final double velocity = 8.0;
     final double heading = -this.rotation;
