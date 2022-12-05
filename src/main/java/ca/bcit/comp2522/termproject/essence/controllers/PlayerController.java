@@ -115,7 +115,9 @@ public class PlayerController implements Controller {
         final Events eventName = this.keyMap.get(code);
         final Consumer<Double> callback = this.eventFnMap.get(eventName);
         final Double scale = this.keyScaleMap.get(code);
-        callback.accept(scale);
+        if (callback != null) {
+            callback.accept(scale);
+        }
     }
 
     private void processMouseMove(final MouseEvent event) {
