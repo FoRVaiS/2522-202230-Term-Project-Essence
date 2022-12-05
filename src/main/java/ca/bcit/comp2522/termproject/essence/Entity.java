@@ -280,6 +280,14 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
   }
 
   /**
+   * Destroys this entity.
+   */
+  public void destroy() {
+    this.world.despawn(this);
+    this.layer.getChildren().remove(this.sprite.getView());
+  }
+
+  /**
    * Sets the entity's controller.
    *
    * @param newController controller to possess the entity
