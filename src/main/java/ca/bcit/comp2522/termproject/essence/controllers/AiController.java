@@ -20,7 +20,7 @@ public class AiController implements Controller {
   private final ArrayList<Consumer<Vec2D>> moveFnMap = new ArrayList<>();
   private final Entity target = Player.getPlayer(null);
   private final Entity self;
-  private long freezeTime = 7_000;
+  private long freezeTime = 3_500;
   private long updateCooldown;
 
   /**
