@@ -63,4 +63,58 @@ public class Vec2D {
   public void setY(final double yPos) {
     this.y = yPos;
   }
+
+  /**
+   * Calcuates the sum of two 2D vectors.
+   *
+   * @param vec      left-hand side vector
+   * @param otherVec right-hand side vector
+   * @return the sum of both vectors
+   */
+  public static Vec2D add(final Vec2D vec, final Vec2D otherVec) {
+    return new Vec2D(vec.getX() + otherVec.getX(), vec.getY() + otherVec.getY());
+  }
+
+  /**
+   * Calcuates the difference of two 2D vectors.
+   *
+   * @param vec      left-hand side vector
+   * @param otherVec right-hand side vector
+   * @return the difference of both vectors
+   */
+  public static Vec2D subtract(final Vec2D vec, final Vec2D otherVec) {
+    return new Vec2D(vec.getX() - otherVec.getX(), vec.getY() - otherVec.getY());
+  }
+
+  /**
+   * Calcuates the quotient of two 2D vectors.
+   *
+   * @param vec      left-hand side vector
+   * @param otherVec right-hand side vector
+   * @return the quotient of both vectors
+   */
+  public static Vec2D divide(final Vec2D vec, final Vec2D otherVec) {
+    return new Vec2D(vec.getX() / otherVec.getX(), vec.getY() / otherVec.getY());
+  }
+
+  /**
+   * Calcuates the product of two 2D vectors.
+   *
+   * @param vec      left-hand side vector
+   * @param otherVec right-hand side vector
+   * @return the product of both vectors
+   */
+  public static Vec2D multiply(final Vec2D vec, final Vec2D otherVec) {
+    return new Vec2D(vec.getX() * otherVec.getX(), vec.getY() * otherVec.getY());
+  }
+
+  /**
+   * Copys the 2D vector.
+   *
+   * @param vec the vector to copy
+   * @return a shallow copy of a 2D vector
+   */
+  public static Vec2D copy(final Vec2D vec) {
+    return new Vec2D(vec.getX(), vec.getY());
+  }
 }
