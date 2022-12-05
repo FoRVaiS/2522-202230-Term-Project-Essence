@@ -8,7 +8,7 @@ import javafx.scene.input.KeyCode;
 /**
  * An interface for unrelated entities to use bindings.
  *
- * @author Felix Lieu & Benjamin Chiang
+ * @author Felix Lieu, Benjamin Chiang
  * @version 0.1.0
  */
 

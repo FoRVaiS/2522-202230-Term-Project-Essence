@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 /**
  * An implementation of Controller for the player to manipulate their character.
  *
- * @author Felix Lieu & Benjamin Chiang
+ * @author Felix Lieu, Benjamin Chiang
  * @version 0.1.0
  */
 public class PlayerController implements Controller {

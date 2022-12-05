@@ -9,7 +9,7 @@ import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
 /**
  * The player entity.
  *
- * @author Benjamin Chiang
+ * @author Benjamin Chiang, Felix Lieu
  * @version 0.1.0
  */
 public final class Player extends Entity {

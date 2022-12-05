@@ -5,7 +5,7 @@ import ca.bcit.comp2522.termproject.essence.Sprite;
 /**
  * A sprite for the pellet projectile.
  *
- * @author Benjamin Chiang
+ * @author Benjamin Chiang, Felix Lieu
  * @version 0.1.0
  */
 public class PelletProjectileSprite extends Sprite {

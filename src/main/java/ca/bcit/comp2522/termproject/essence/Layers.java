@@ -5,7 +5,7 @@ import javafx.scene.Group;
 /**
  * A container class for the different layers of the scene.
  *
- * @author Benjamin Chiang
+ * @author Benjamin Chiang, Felix Lieu
  * @version 0.1.0
  */
 public final class Layers {

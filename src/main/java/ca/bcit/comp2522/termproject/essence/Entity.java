@@ -12,7 +12,7 @@ import javafx.scene.Group;
 /**
  * Represents an object in the world.
  *
- * @author Benjamin Chiang
+ * @author Benjamin Chiang, Felix Lieu
  * @version 0.1.0
  */
 public abstract class Entity implements LogicComponent, Possessable, Collidable<Entity> {

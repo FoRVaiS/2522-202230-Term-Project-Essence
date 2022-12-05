@@ -15,7 +15,7 @@ import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
 /**
  * Manages objects in the world.
  *
- * @author Benjamin Chiang
+ * @author Benjamin Chiang, Felix Lieu
  * @version 0.1.0
  */
 public class World implements LogicComponent {

@@ -5,7 +5,7 @@ import ca.bcit.comp2522.termproject.essence.Sprite;
 /**
  * A sprite for the brick tile.
  *
- * @author Benjamin Chiang
+ * @author Benjamin Chiang, Felix Lieu
  * @version 0.1.0
  */
 public class BrickTileSprite extends Sprite {

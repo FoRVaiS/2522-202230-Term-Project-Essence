@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 /**
  * Grid of tiles.
  *
- * @author Benjamin Chiang
+ * @author Benjamin Chiang, Felix Lieu
  * @version 0.1.0
  */
 public class Chunk {
