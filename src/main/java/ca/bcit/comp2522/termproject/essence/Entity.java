@@ -206,7 +206,7 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
   public void shoot(final double flag) {
     final Projectile projectile = new PelletProjectile(this.getWorld(), this.getTeam());
 
-    final double velocity = 8.0;
+    final double velocity = 24.0;
     final double heading = -this.rotation;
     final Vec2D vector = new Vec2D(velocity, heading);
 

@@ -17,7 +17,7 @@ public final class Player extends Entity {
 
   private final double defaultHealth = 100.0;
   private final double defaultDamage = 100.0;
-  private final double defaultSpeed = 24.0;
+  private final double defaultSpeed = 12.0;
 
   /**
    * Creates a new player entity.
