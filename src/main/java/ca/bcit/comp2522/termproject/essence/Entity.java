@@ -277,6 +277,7 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    */
   public void render() {
     if (!this.layer.getChildren().contains(this.sprite.getView())) {
+      this.sprite.setPosition(this.getCentre());
       this.layer.getChildren().add(this.sprite.getView());
     }
   }
