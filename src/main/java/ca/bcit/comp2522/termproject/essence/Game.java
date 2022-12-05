@@ -2,8 +2,6 @@ package ca.bcit.comp2522.termproject.essence;
 
 import javafx.animation.AnimationTimer;
 
-import java.io.IOException;
-
 /**
  * Manages and updates game components.
  *

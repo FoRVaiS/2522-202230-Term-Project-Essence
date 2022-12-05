@@ -16,7 +16,7 @@ public abstract class Sprite {
   public static final int TILE_SIZE = 128;
 
   /** Image reference for the PLAYER character. */
-  public static final Image SPRITE_PLAYER = new Image("SPRITE_PLAYER.png");
+  public static final Image SPRITE_PLAYER = new Image("SPRITE_PLAYER.png", 120 - 12, 220 - 22, true, true);
 
   /** Image reference for the PELLET projectile. */
   public static final Image PROJECTILE_PELLET = new Image("SPRITE_PELLET_PROJECTILE.png");
@@ -43,6 +43,15 @@ public abstract class Sprite {
    */
   public ImageView getView() {
     return this.view;
+  }
+
+  /**
+   * Scales the sprite on the x axis.
+   *
+   * @param scale the factor to scale the image
+   */
+  public void scaleX(final double scale) {
+    this.view.setScaleX(scale);
   }
 
   /**
