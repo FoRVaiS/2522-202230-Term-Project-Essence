@@ -22,6 +22,7 @@ public final class Player extends Entity {
 
   /**
    * Creates a new player entity.
+   *
    * @param world reference to the world
    */
   private Player(final World world) {

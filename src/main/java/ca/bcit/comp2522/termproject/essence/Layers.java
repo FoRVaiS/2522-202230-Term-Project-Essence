@@ -21,5 +21,6 @@ public final class Layers {
   /** The UI layer containing only the user interface of the scene. */
   public static final Group UI_LAYER = new Group();
 
-  private Layers() { }
+  private Layers() {
+  }
 }

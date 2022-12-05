@@ -18,8 +18,8 @@ public class PelletProjectile extends Projectile {
   /**
    * Creates a pellet projectile.
    *
-   * @param world reference to the world
-   * @param owner entity who created this projectile
+   * @param world    reference to the world
+   * @param owner    entity who created this projectile
    * @param position where this projectile spawns
    */
   public PelletProjectile(final World world, final Entity owner, final Vec2D position) {

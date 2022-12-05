@@ -18,7 +18,6 @@ import javafx.scene.input.MouseEvent;
  * @author Felix Lieu & Benjamin Chiang
  * @version 0.1.0
  */
-
 public class PlayerController implements Controller {
     private final Scene scene = Layers.PLAYER_LAYER.getScene();
     private final HashMap<KeyCode, Events> keyMap;
@@ -36,9 +35,11 @@ public class PlayerController implements Controller {
         this.keyMap = new HashMap<>();
         this.eventFnMap = new HashMap<>();
         this.keyScaleMap = new HashMap<>();
+
         // these are listeners.
         this.scene.setOnKeyPressed(this::pushKeyCodeToState);
         this.scene.setOnKeyReleased(this::resetKeyState);
+
         // mouse listener.
         this.scene.setOnMouseMoved(this::processMouseMove);
 

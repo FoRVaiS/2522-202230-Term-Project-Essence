@@ -15,7 +15,8 @@ import javafx.scene.input.KeyCode;
 public interface Controller {
     /**
      * Binds Action type keycode to event name.
-     * @param keyCode controller's KeyCode in keycode
+     *
+     * @param keyCode   controller's KeyCode in keycode
      * @param eventName controller's Events as eventName
      */
     void bindActionKey(KeyCode keyCode, Events eventName);
@@ -30,16 +31,18 @@ public interface Controller {
 
     /**
      * Binds AxisKey type keycode and events to a scale.
-     * @param keyCode controller's KeyCode in keycode
+     *
+     * @param keyCode   controller's KeyCode in keycode
      * @param eventName controller's Events as eventName
-     * @param scale controller's scale in integer
+     * @param scale     controller's scale in integer
      */
     void bindAxisKey(KeyCode keyCode, Events eventName, Double scale);
 
     /**
      * Binds Axis type eventName to Double based handler.
+     *
      * @param eventName controller's KeyCode in keycode
-     * @param handler controller's Events as eventName
+     * @param handler   controller's Events as eventName
      */
     void bindAxis(Events eventName, Consumer<Double> handler);
 

@@ -13,12 +13,8 @@ import ca.bcit.comp2522.termproject.essence.sprites.PelletProjectileSprite;
  * @version 0.1.0
  */
 public class Hunter extends Entity {
-
-
     private final double defaultHunterHealth = 50.0;
-
     private final double defaultHunterDamage = 25.0;
-
     private final double defaultHunterSpeed = 12.0;
 
     /**

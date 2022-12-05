@@ -13,7 +13,6 @@ import ca.bcit.comp2522.termproject.essence.sprites.PelletProjectileSprite;
  * @version 0.1.0
  */
 public class Gunner extends Entity {
-
     private final double defaultGunnerHealth = 60.0;
     private final double defaultGunnerDamage = 15.0;
     private final double defaultGunnerSpeed = 12.0;
@@ -45,6 +44,7 @@ public class Gunner extends Entity {
     public double getX() {
         return this.position.getX();
     }
+
     /**
      * Returns the gunner's y position.
      *
