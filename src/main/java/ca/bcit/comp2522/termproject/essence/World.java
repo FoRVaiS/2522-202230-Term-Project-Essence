@@ -146,7 +146,6 @@ public final class World implements LogicComponent {
     }
   }
 
-  private int counter = 0;
   /**
    * Updates all logical components in the world.
    *
