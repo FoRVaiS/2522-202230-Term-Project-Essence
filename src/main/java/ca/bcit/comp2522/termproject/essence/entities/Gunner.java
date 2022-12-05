@@ -22,7 +22,7 @@ public class Gunner extends Entity {
      * @param world reference to the world
      */
     public Gunner(final World world) {
-        super(world, new PlayerSprite(), Layers.FOREGROUND_LAYER);
+        super(world, new PlayerSprite(), Entity.Teams.ENEMY, Layers.FOREGROUND_LAYER);
 
         this.setStat(Entity.Stats.HEALTH, defaultGunnerHealth);
         this.setStat(Entity.Stats.DAMAGE, defaultGunnerDamage);

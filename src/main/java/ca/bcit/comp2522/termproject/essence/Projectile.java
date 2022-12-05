@@ -18,10 +18,11 @@ public class Projectile extends Entity {
    *
    * @param world  the world the projectile is in
    * @param sprite projectile sprite
+   * @param team   the team the projectile belongs to
    * @param layer  layer to render on
    */
-  public Projectile(final World world, final Sprite sprite, final Group layer) {
-    super(world, sprite, Layers.FOREGROUND_LAYER);
+  public Projectile(final World world, final Sprite sprite, final Teams team, final Group layer) {
+    super(world, sprite, team, Layers.FOREGROUND_LAYER);
   }
 
   /**

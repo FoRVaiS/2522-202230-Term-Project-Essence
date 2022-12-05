@@ -22,7 +22,7 @@ public class Hunter extends Entity {
      * @param world reference to the world
      */
     public Hunter(final World world) {
-        super(world, new PlayerSprite(), Layers.FOREGROUND_LAYER);
+        super(world, new PlayerSprite(), Entity.Teams.ENEMY, Layers.FOREGROUND_LAYER);
 
         this.setStat(Entity.Stats.HEALTH, defaultHunterHealth);
         this.setStat(Entity.Stats.DAMAGE, defaultHunterDamage);

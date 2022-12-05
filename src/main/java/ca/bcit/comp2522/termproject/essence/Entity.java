@@ -27,12 +27,21 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
     SPEED
   }
 
+  /**
+   * Entity Teams.
+   */
+  public enum Teams {
+    FRIENDLY,
+    ENEMY
+  }
+
   private final World world;
   private final Group layer;
 
   private final Sprite sprite;
   private final HashMap<Stats, Double> stats = new HashMap<>();
   private final Vec2D position = new Vec2D();
+  private final Teams team;
 
   private Camera camera;
   private Controller controller;
@@ -45,11 +54,13 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    *
    * @param world  reference to the world
    * @param sprite sprite to represent the entity
+   * @param team   the team the entity belongs to
    * @param layer  the layer the entity sprite should reside in
    */
-  public Entity(final World world, final Sprite sprite, final Group layer) {
+  public Entity(final World world, final Sprite sprite, final Teams team, final Group layer) {
     this.world = world;
     this.sprite = sprite;
+    this.team = team;
     this.layer = layer;
 
     final Vec2D dimensions = new Vec2D(this.getWidth(), this.getHeight());
@@ -149,6 +160,15 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    */
   public void moveY(final double yDir) {
     this.position.setY(this.getY() + yDir * this.stats.get(Stats.SPEED));
+  }
+
+  /**
+   * Returns the entity's team.
+   *
+   * @return entity's team
+   */
+  public Teams getTeam() {
+    return this.team;
   }
 
   /**
@@ -313,6 +333,7 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
         && Objects.equals(getSprite(), entity.getSprite())
         && Objects.equals(getStats(), entity.getStats())
         && Objects.equals(getPosition(), entity.getPosition())
+        && Objects.equals(getTeam(), entity.getTeam())
         && Objects.equals(camera, entity.camera)
         && Objects.equals(controller, entity.controller);
   }
@@ -324,7 +345,8 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    */
   @Override
   public int hashCode() {
-    return Objects.hash(getWorld(), layer, getSprite(), getStats(), getPosition(), camera, controller, cooldown,
+    return Objects.hash(getWorld(), layer, getSprite(), getStats(), getPosition(), getTeam(), camera, controller,
+        cooldown,
         rotation);
   }
 
@@ -341,6 +363,7 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
         + ", sprite=" + sprite
         + ", stats=" + stats
         + ", position=" + position
+        + ", team=" + team
         + ", camera=" + camera
         + ", controller=" + controller
         + ", cooldown=" + cooldown

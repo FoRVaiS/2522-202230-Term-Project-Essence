@@ -25,7 +25,7 @@ public final class Player extends Entity {
    * @param world reference to the world
    */
   private Player(final World world) {
-    super(world, new PlayerSprite(), Layers.PLAYER_LAYER);
+    super(world, new PlayerSprite(), Entity.Teams.FRIENDLY, Layers.PLAYER_LAYER);
 
     this.setStat(Entity.Stats.HEALTH, this.defaultHealth);
     this.setStat(Entity.Stats.DAMAGE, this.defaultDamage);
