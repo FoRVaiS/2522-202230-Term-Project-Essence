@@ -154,8 +154,10 @@ public class PlayerController implements Controller {
 
     /**
      * Updates player controller logic.
+     *
+     * @param deltaTime time since last tick
      */
-    public void update() {
+    public void update(final long deltaTime) {
         for (KeyCode keyCode : state) {
             processInput(keyCode);
         }

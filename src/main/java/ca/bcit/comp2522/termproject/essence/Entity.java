@@ -262,7 +262,7 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
     }
 
     if (this.controller != null) {
-      this.controller.update();
+      this.controller.update(deltaTime);
     }
 
     if (this.cooldown > 0) {

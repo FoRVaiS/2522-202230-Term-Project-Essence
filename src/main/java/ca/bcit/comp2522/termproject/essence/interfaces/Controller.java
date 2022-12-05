@@ -37,8 +37,10 @@ public interface Controller {
 
     /**
      * Updates controller logic.
+     *
+     * @param deltaTime time since last tick
      */
-    void update();
+    void update(long deltaTime);
 
     /**
      * Default action event names for entity manipulation.
