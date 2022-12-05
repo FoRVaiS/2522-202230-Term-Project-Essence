@@ -2,9 +2,7 @@ package ca.bcit.comp2522.termproject.essence.entities;
 
 import ca.bcit.comp2522.termproject.essence.Entity;
 import ca.bcit.comp2522.termproject.essence.Layers;
-import ca.bcit.comp2522.termproject.essence.Vec2D;
 import ca.bcit.comp2522.termproject.essence.World;
-import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
 import ca.bcit.comp2522.termproject.essence.sprites.PelletProjectileSprite;
 
 /**
@@ -14,7 +12,6 @@ import ca.bcit.comp2522.termproject.essence.sprites.PelletProjectileSprite;
  * @version 0.1.0
  */
 public class Gunner extends Entity {
-
     private final double defaultGunnerHealth = 60.0;
     private final double defaultGunnerDamage = 15.0;
     private final double defaultGunnerSpeed = 12.0;
@@ -25,33 +22,10 @@ public class Gunner extends Entity {
      * @param world reference to the world
      */
     public Gunner(final World world) {
-        super(world, new PelletProjectileSprite(), Layers.FOREGROUND_LAYER, new Vec2D());
-    }
+        super(world, new PelletProjectileSprite(), Layers.FOREGROUND_LAYER);
 
-    /**
-     * Sets the stats of the gunner mob.
-     */
-    @Override
-    protected void setStats() {
-        this.stats.put(Entity.Stats.HEALTH, this.defaultGunnerHealth);
-        this.stats.put(Entity.Stats.DAMAGE, this.defaultGunnerDamage);
-        this.stats.put(Entity.Stats.SPEED, this.defaultGunnerSpeed);
-    }
-
-    /**
-     * Returns the gunner's x position.
-     *
-     * @return gunner's x position
-     */
-    public double getX() {
-        return this.position.getX();
-    }
-    /**
-     * Returns the gunner's y position.
-     *
-     * @return gunner's y position
-     */
-    public double getY() {
-        return this.position.getY();
+        this.setStat(Entity.Stats.HEALTH, defaultGunnerHealth);
+        this.setStat(Entity.Stats.DAMAGE, defaultGunnerDamage);
+        this.setStat(Entity.Stats.SPEED, defaultGunnerSpeed);
     }
 }

@@ -13,23 +13,27 @@ public interface Character {
 
     /**
      * User's ability to use their desired input for a skill.
+     *
      * @param slotKey character's skill slot key
      */
     void useSkillSlot(int slotKey);
 
     /**
      * Bind a skill to a dedicated slot.
+     *
      * @param characterSkill character's skill or their ability
-     * @param skillSlot character's skill slot as int
+     * @param skillSlot      character's skill slot as int
      */
     void bindSkillToSlot(Skill characterSkill, int skillSlot);
 
     /**
      * Change the character's stat based on skills or external events.
-     * @param stat character's baseline stats
+     *
+     * @param stat              character's baseline stats
      * @param changeStatByScale character's stat as a double
      */
     void modifyStats(Stats stat, double changeStatByScale);
+
     /**
      * Getter for the character's statistics.
      */

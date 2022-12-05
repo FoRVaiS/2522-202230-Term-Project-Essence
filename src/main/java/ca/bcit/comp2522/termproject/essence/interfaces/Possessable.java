@@ -3,7 +3,7 @@ package ca.bcit.comp2522.termproject.essence.interfaces;
 /**
  * An object that is possessable by a controller.
  *
- * @author Benjamin Chiang
+ * @author Benjamin Chiang, Felix Lieu
  * @version 0.1.0
  */
 public interface Possessable {

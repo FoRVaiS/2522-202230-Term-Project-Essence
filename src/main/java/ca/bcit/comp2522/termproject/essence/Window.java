@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * JavaFX window for Essence.
  *
- * @author Benjamin Chiang
+ * @author Benjamin Chiang, Felix Lieu
  * @version 0.1.0
  */
 public class Window extends Application {

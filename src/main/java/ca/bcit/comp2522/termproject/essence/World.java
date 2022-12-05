@@ -2,10 +2,10 @@ package ca.bcit.comp2522.termproject.essence;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Random;
 
 import ca.bcit.comp2522.termproject.essence.HUD.EssenceBar;
-import ca.bcit.comp2522.termproject.essence.entities.Camera;
 import ca.bcit.comp2522.termproject.essence.entities.Gunner;
 import ca.bcit.comp2522.termproject.essence.entities.Hunter;
 import ca.bcit.comp2522.termproject.essence.entities.Player;
@@ -16,13 +16,11 @@ import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
 /**
  * Manages objects in the world.
  *
- * @author Benjamin Chiang
+ * @author Benjamin Chiang, Felix Lieu
  * @version 0.1.0
  */
-public class World implements LogicComponent {
-  private final double SPAWN_BOUNDARY = 0.02;
+public final class World implements LogicComponent {
   private final HashMap<Integer, Chunk> chunks = new HashMap<>();
-  private final ArrayList<LogicComponent> logicalChildren = new ArrayList<>();
   private final ArrayList<Entity> entities = new ArrayList<>();
   private final EssenceBar essenceBar = new EssenceBar();
 
@@ -34,7 +32,7 @@ public class World implements LogicComponent {
     final Camera camera = new Camera();
     player.setCamera(camera);
 
-    this.spawn(player, new Vec2D());
+    this.spawn(player);
     this.update(0);
 
     this.essenceBar.render();
@@ -43,34 +41,61 @@ public class World implements LogicComponent {
   /**
    * Spawns an entity into the world at a given position.
    *
-   * @param ent      entity to spawn
-   * @param position position to spawn entity at
+   * @param ent entity to spawn
    */
-  public void spawn(final Entity ent, final Vec2D position) {
+  public void spawn(final Entity ent) {
     this.entities.add(ent);
 
-    ent.setPosition(position);
     ent.render();
+  }
+
+  /**
+   * Spawns a random mob at a target location.
+   *
+   * @param position the position to spawn the mob at
+   */
+  private void spawnMob(final Vec2D position) {
+    final Random random = new Random();
+
+    final double spawnBoundary = 0.02;
+    final double spawnChance = random.nextDouble(1);
+
+    if (spawnChance <= spawnBoundary) {
+      final int spawn = random.nextInt(2);
+      Entity ent = null;
+
+      switch (spawn) {
+        case 0 -> {
+          ent = new Gunner(this);
+        }
+        case 1 -> {
+          ent = new Hunter(this);
+        }
+        default -> {
+        }
+      }
+
+      ent.setPosition(position);
+      this.spawn(ent);
+    }
   }
 
   /**
    * Updates chunks around a point as far as the render distance allows.
    *
-   * @param posX           x coordinate of a point
-   * @param posY           y coordinate of a point
+   * @param position       world position
    * @param renderDistance distance around point to render chunks
-   * @return Arraylist of chunks rendered in this cycle
    */
-  private ArrayList<Integer> updateChunks(final double posX, final double posY, final int renderDistance) {
+  private void updateChunks(final Vec2D position, final int renderDistance) {
     final int tileSize = Sprite.TILE_SIZE;
     final int tilesInChunk = Chunk.CHUNK_SIZE;
     final int chunkLength = tileSize * tilesInChunk;
 
-    final int xStart = (int) Math.floor((posX - renderDistance) / chunkLength);
-    final int xEnd = (int) Math.floor((posX + renderDistance) / chunkLength);
+    final int xStart = (int) Math.floor((position.getX() - renderDistance) / chunkLength);
+    final int xEnd = (int) Math.floor((position.getX() + renderDistance) / chunkLength);
 
-    final int yStart = (int) Math.floor((posY - renderDistance) / chunkLength);
-    final int yEnd = (int) Math.floor((posY + renderDistance) / chunkLength);
+    final int yStart = (int) Math.floor((position.getY() - renderDistance) / chunkLength);
+    final int yEnd = (int) Math.floor((position.getY() + renderDistance) / chunkLength);
 
     final ArrayList<Integer> renderedChunkIds = new ArrayList<>();
 
@@ -84,15 +109,7 @@ public class World implements LogicComponent {
         Chunk chunk;
 
         if (!chunks.containsKey(chunkId)) {
-          final Random random = new Random();
-          final double spawnChance = random.nextDouble(0, 1);
-          if (spawnChance <= SPAWN_BOUNDARY) {
-            final int spawn = random.nextInt(0, 1);
-            switch (spawn) {
-              case 0 -> this.spawn(new Hunter(this), new Vec2D(chunkPosX, chunkPosY));
-              case 1 -> this.spawn(new Gunner(this), new Vec2D(chunkPosX, chunkPosY));
-            }
-          }
+          this.spawnMob(new Vec2D(chunkPosX, chunkPosY));
           chunk = new Chunk(new BrickTileSprite(), chunkPosX, chunkPosY);
           this.chunks.put(chunkId, chunk);
         } else {
@@ -105,8 +122,6 @@ public class World implements LogicComponent {
     }
 
     this.unloadChunks(renderedChunkIds);
-
-    return renderedChunkIds;
   }
 
   /**
@@ -139,14 +154,6 @@ public class World implements LogicComponent {
    */
   @Override
   public void update(final long deltaTime) {
-    counter += deltaTime;
-    if (counter > 1000) {
-      counter = 0;
-      this.essenceBar.increaseProgress(1, 2000);
-    }
-
-    final Entity player = Player.getPlayer(this);
-
     final Entity[] localEntities = this.entities.toArray(Entity[]::new);
 
     for (final Entity entity : localEntities) {
@@ -155,7 +162,49 @@ public class World implements LogicComponent {
 
     Collision.intersect(entities);
 
+    final Entity player = Player.getPlayer(this);
     final int renderDistance = 2000;
-    this.updateChunks(player.getX(), player.getY(), renderDistance);
+    this.updateChunks(player.getPosition(), renderDistance);
+  }
+
+  /**
+   * Determines if an obj is equal to this instance of the world.
+   *
+   * @param obj another object
+   * @return true if the obj is equal to this instance
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    final World world = (World) obj;
+    return Objects.equals(chunks, world.chunks) && Objects.equals(entities, world.entities);
+  }
+
+  /**
+   * Returns the hashcode for this world instance.
+   *
+   * @return world instance hashcode
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(chunks, entities);
+  }
+
+  /**
+   * Returns the string representation of the world.
+   *
+   * @return string representation of the world
+   */
+  @Override
+  public String toString() {
+    return "World{"
+        + "chunks=" + chunks
+        + ", entities=" + entities
+        + '}';
   }
 }

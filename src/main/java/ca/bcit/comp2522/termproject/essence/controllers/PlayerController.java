@@ -2,6 +2,7 @@ package ca.bcit.comp2522.termproject.essence.controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import ca.bcit.comp2522.termproject.essence.Layers;
@@ -15,10 +16,9 @@ import javafx.scene.input.MouseEvent;
 /**
  * An implementation of Controller for the player to manipulate their character.
  *
- * @author Felix Lieu & Benjamin Chiang
+ * @author Felix Lieu, Benjamin Chiang
  * @version 0.1.0
  */
-
 public class PlayerController implements Controller {
     private final Scene scene = Layers.PLAYER_LAYER.getScene();
     private final HashMap<KeyCode, Events> keyMap;
@@ -28,7 +28,7 @@ public class PlayerController implements Controller {
     private final ArrayList<Consumer<Vec2D>> moveFn;
 
     /**
-     * Our dynamic constructor that takes in the scene.
+     * Creates a controller to process the player's keyboard input.
      */
     public PlayerController() {
         this.moveFn = new ArrayList<>();
@@ -36,9 +36,11 @@ public class PlayerController implements Controller {
         this.keyMap = new HashMap<>();
         this.eventFnMap = new HashMap<>();
         this.keyScaleMap = new HashMap<>();
+
         // these are listeners.
         this.scene.setOnKeyPressed(this::pushKeyCodeToState);
         this.scene.setOnKeyReleased(this::resetKeyState);
+
         // mouse listener.
         this.scene.setOnMouseMoved(this::processMouseMove);
 
@@ -159,5 +161,55 @@ public class PlayerController implements Controller {
         for (KeyCode keyCode : state) {
             processInput(keyCode);
         }
+    }
+
+    /**
+     * Determines if an obj is equal to this instance of this player controller.
+     *
+     * @param obj another object
+     * @return true if the obj is equal to this instance
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final PlayerController that = (PlayerController) obj;
+        return Objects.equals(scene, that.scene)
+                && Objects.equals(keyMap, that.keyMap)
+                && Objects.equals(eventFnMap, that.eventFnMap)
+                && Objects.equals(keyScaleMap, that.keyScaleMap)
+                && Objects.equals(state, that.state)
+                && Objects.equals(moveFn, that.moveFn);
+    }
+
+    /**
+     * Returns the hashcode for this player controller instance.
+     *
+     * @return player controller instance hashcode
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(scene, keyMap, eventFnMap, keyScaleMap, state, moveFn);
+    }
+
+    /**
+     * Returns the string representation of the player controller.
+     *
+     * @return string representation of the player controller
+     */
+    @Override
+    public String toString() {
+        return "PlayerController{"
+                + "scene=" + scene
+                + ", keyMap=" + keyMap
+                + ", eventFnMap=" + eventFnMap
+                + ", keyScaleMap=" + keyScaleMap
+                + ", state=" + state
+                + ", moveFn=" + moveFn
+                + '}';
     }
 }
