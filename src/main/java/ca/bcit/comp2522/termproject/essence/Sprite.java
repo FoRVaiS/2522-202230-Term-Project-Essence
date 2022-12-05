@@ -46,6 +46,15 @@ public abstract class Sprite {
   }
 
   /**
+   * Scales the sprite on the x axis.
+   *
+   * @param scale the factor to scale the image
+   */
+  public void scaleX(final double scale) {
+    this.view.setScaleX(scale);
+  }
+
+  /**
    * Sets the sprite position.
    *
    * @param position new position
