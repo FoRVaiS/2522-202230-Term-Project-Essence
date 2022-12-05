@@ -4,7 +4,6 @@ import ca.bcit.comp2522.termproject.essence.Entity;
 import ca.bcit.comp2522.termproject.essence.Layers;
 import ca.bcit.comp2522.termproject.essence.Vec2D;
 import ca.bcit.comp2522.termproject.essence.World;
-import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
 import ca.bcit.comp2522.termproject.essence.sprites.PelletProjectileSprite;
 
 /**
