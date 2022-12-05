@@ -3,6 +3,8 @@ package ca.bcit.comp2522.termproject.essence;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.Objects;
+
 /**
  * An object that can be displayed and manipulated.
  *
@@ -52,4 +54,44 @@ public abstract class Sprite {
     view.setX(position.getX());
     view.setY(position.getY());
   };
+
+  /**
+   * Determines if an obj is equal to this instance of this sprite.
+   *
+   * @param obj another object
+   * @return true if the obj is equal to this instance
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    final Sprite sprite = (Sprite) obj;
+    return Objects.equals(getView(), sprite.getView());
+  }
+
+  /**
+   * Returns the hashcode for this sprite instance.
+   *
+   * @return sprite instance hashcode
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(getView());
+  }
+
+  /**
+   * Returns the string representation of the sprite.
+   *
+   * @return string representation of the sprite
+   */
+  @Override
+  public String toString() {
+    return "Sprite{"
+        + "view=" + view
+        + '}';
+  }
 }

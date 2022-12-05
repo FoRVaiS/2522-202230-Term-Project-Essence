@@ -3,6 +3,9 @@ package ca.bcit.comp2522.termproject.essence;
 import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
 import javafx.scene.image.ImageView;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Grid of tiles.
  *
@@ -94,5 +97,49 @@ public class Chunk {
     final int chunkLength = tileSize * tilesInChunk;
 
     return posX / chunkLength + posY;
+  }
+
+  /**
+   * Determines if an obj is equal to this instance of this chunk.
+   *
+   * @param obj another object
+   * @return true if the obj is equal to this instance
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    final Chunk chunk = (Chunk) obj;
+    return getId() == chunk.getId() && Arrays.equals(getTiles(), chunk.getTiles());
+  }
+
+  /**
+   * Returns the hashcode for this chunk instance.
+   *
+   * @return chunk instance hashcode
+   */
+  @Override
+  public int hashCode() {
+    final int hash = 31;
+    int result = Objects.hash(getId());
+    result = hash * result + Arrays.hashCode(getTiles());
+    return result;
+  }
+
+  /**
+   * Returns the string representation of the chunk.
+   *
+   * @return string representation of the chunk
+   */
+  @Override
+  public String toString() {
+    return "Chunk{"
+        + "tiles=" + Arrays.toString(tiles)
+        + ", id=" + id
+        + '}';
   }
 }

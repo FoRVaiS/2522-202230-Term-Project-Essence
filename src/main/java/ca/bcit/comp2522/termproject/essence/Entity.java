@@ -1,6 +1,7 @@
 package ca.bcit.comp2522.termproject.essence;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import ca.bcit.comp2522.termproject.essence.entities.PelletProjectile;
 import ca.bcit.comp2522.termproject.essence.interfaces.Collidable;
@@ -16,6 +17,7 @@ import javafx.scene.Group;
  * @version 0.1.0
  */
 public abstract class Entity implements LogicComponent, Possessable, Collidable<Entity> {
+
   /**
    * Entity Stats.
    */
@@ -102,6 +104,7 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
   public Vec2D getPosition() {
     return Vec2D.copy(this.position);
   }
+
   /**
    * Sets the position of the entity.
    *
@@ -286,5 +289,62 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
   @Override
   public void unpossess() {
     this.controller = null;
+  }
+
+  /**
+   * Determines if an obj is equal to this instance of this entity.
+   *
+   * @param obj another object
+   * @return true if the obj is equal to this instance
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    final Entity entity = (Entity) obj;
+    return cooldown == entity.cooldown
+        && Double.compare(entity.rotation, rotation) == 0
+        && Objects.equals(getWorld(), entity.getWorld())
+        && Objects.equals(layer, entity.layer)
+        && Objects.equals(getSprite(), entity.getSprite())
+        && Objects.equals(getStats(), entity.getStats())
+        && Objects.equals(getPosition(), entity.getPosition())
+        && Objects.equals(camera, entity.camera)
+        && Objects.equals(controller, entity.controller);
+  }
+
+  /**
+   * Returns the hashcode for this entity instance.
+   *
+   * @return entity instance hashcode
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(getWorld(), layer, getSprite(), getStats(), getPosition(), camera, controller, cooldown,
+        rotation);
+  }
+
+  /**
+   * Returns the string representation of the entity.
+   *
+   * @return string representation of the entity
+   */
+  @Override
+  public String toString() {
+    return "Entity{"
+        + "world=" + world
+        + ", layer=" + layer
+        + ", sprite=" + sprite
+        + ", stats=" + stats
+        + ", position=" + position
+        + ", camera=" + camera
+        + ", controller=" + controller
+        + ", cooldown=" + cooldown
+        + ", rotation=" + rotation
+        + '}';
   }
 }

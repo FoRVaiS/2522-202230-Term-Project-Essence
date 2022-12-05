@@ -2,6 +2,8 @@ package ca.bcit.comp2522.termproject.essence;
 
 import javafx.scene.Group;
 
+import java.util.Objects;
+
 /**
  * A entity class for a projectile.
  *
@@ -54,5 +56,47 @@ public class Projectile extends Entity {
 
     this.moveX(deltaX);
     this.moveY(deltaY);
+  }
+
+  /**
+   * Determines if an obj is equal to this instance of the projectile.
+   *
+   * @param obj another object
+   * @return true if the obj is equal to this instance
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+
+    final Projectile that = (Projectile) obj;
+    return Double.compare(that.heading, heading) == 0;
+  }
+
+  /**
+   * Returns the hashcode for this projectile instance.
+   *
+   * @return projectile instance hashcode
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(heading);
+  }
+
+  /**
+   * Returns the string representation of the projectile.
+   *
+   * @return string representation of the projectile
+   */
+  @Override
+  public String toString() {
+    return "Projectile{"
+        + "heading=" + heading
+        + '}';
   }
 }

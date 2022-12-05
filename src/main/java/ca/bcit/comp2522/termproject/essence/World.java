@@ -2,6 +2,7 @@ package ca.bcit.comp2522.termproject.essence;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Random;
 
 import ca.bcit.comp2522.termproject.essence.HUD.EssenceBar;
@@ -18,7 +19,7 @@ import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
  * @author Benjamin Chiang, Felix Lieu
  * @version 0.1.0
  */
-public class World implements LogicComponent {
+public final class World implements LogicComponent {
   private final HashMap<Integer, Chunk> chunks = new HashMap<>();
   private final ArrayList<Entity> entities = new ArrayList<>();
   private final EssenceBar essenceBar = new EssenceBar();
@@ -74,10 +75,8 @@ public class World implements LogicComponent {
         }
       }
 
-      if (ent != null) {
-        ent.setPosition(position);
-        this.spawn(ent);
-      }
+      ent.setPosition(position);
+      this.spawn(ent);
     }
   }
 
@@ -86,9 +85,8 @@ public class World implements LogicComponent {
    *
    * @param position       world position
    * @param renderDistance distance around point to render chunks
-   * @return Arraylist of chunks rendered in this cycle
    */
-  private ArrayList<Integer> updateChunks(final Vec2D position, final int renderDistance) {
+  private void updateChunks(final Vec2D position, final int renderDistance) {
     final int tileSize = Sprite.TILE_SIZE;
     final int tilesInChunk = Chunk.CHUNK_SIZE;
     final int chunkLength = tileSize * tilesInChunk;
@@ -124,8 +122,6 @@ public class World implements LogicComponent {
     }
 
     this.unloadChunks(renderedChunkIds);
-
-    return renderedChunkIds;
   }
 
   /**
@@ -169,5 +165,46 @@ public class World implements LogicComponent {
     final Entity player = Player.getPlayer(this);
     final int renderDistance = 2000;
     this.updateChunks(player.getPosition(), renderDistance);
+  }
+
+  /**
+   * Determines if an obj is equal to this instance of the world.
+   *
+   * @param obj another object
+   * @return true if the obj is equal to this instance
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    final World world = (World) obj;
+    return Objects.equals(chunks, world.chunks) && Objects.equals(entities, world.entities);
+  }
+
+  /**
+   * Returns the hashcode for this world instance.
+   *
+   * @return world instance hashcode
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(chunks, entities);
+  }
+
+  /**
+   * Returns the string representation of the world.
+   *
+   * @return string representation of the world
+   */
+  @Override
+  public String toString() {
+    return "World{"
+        + "chunks=" + chunks
+        + ", entities=" + entities
+        + '}';
   }
 }
