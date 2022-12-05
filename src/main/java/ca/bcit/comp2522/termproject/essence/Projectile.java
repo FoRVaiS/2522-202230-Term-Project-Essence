@@ -11,6 +11,7 @@ import java.util.Objects;
  * @version 0.1.0
  */
 public class Projectile extends Entity {
+  private long lifetime;
   private double heading;
 
   /**
@@ -72,6 +73,13 @@ public class Projectile extends Entity {
 
     this.moveX(deltaX);
     this.moveY(deltaY);
+
+    final long maxLifetime = 6_000;
+    lifetime += deltaTime;
+
+    if (lifetime >= maxLifetime) {
+      this.destroy();
+    }
   }
 
   /**
@@ -91,7 +99,8 @@ public class Projectile extends Entity {
     }
 
     final Projectile that = (Projectile) obj;
-    return Double.compare(that.heading, heading) == 0;
+    return Double.compare(that.heading, heading) == 0
+        && Long.compare(that.lifetime, lifetime) == 0;
   }
 
   /**
@@ -101,7 +110,7 @@ public class Projectile extends Entity {
    */
   @Override
   public int hashCode() {
-    return Objects.hash(heading);
+    return Objects.hash(heading, lifetime);
   }
 
   /**
@@ -112,6 +121,7 @@ public class Projectile extends Entity {
   @Override
   public String toString() {
     return "Projectile{"
+        + "lifetime=" + lifetime
         + "heading=" + heading
         + '}';
   }
