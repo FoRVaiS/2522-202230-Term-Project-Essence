@@ -241,7 +241,6 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    */
   @Override
   public void onCollision(final Entity otherEnt) {
-
   };
 
   /**

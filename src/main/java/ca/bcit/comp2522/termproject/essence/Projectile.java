@@ -44,6 +44,21 @@ public class Projectile extends Entity {
   }
 
   /**
+   * Fires when this entity collides with another entity.
+   *
+   * @param otherEnt the colliding entity
+   */
+  @Override
+  public void onCollision(final Entity otherEnt) {
+    super.onCollision(otherEnt);
+
+    if (otherEnt.getTeam() != this.getTeam()) {
+      otherEnt.destroy();
+      this.destroy();
+    }
+  }
+
+  /**
    * Updates the projectile's logic.
    *
    * @param deltaTime time since last tick
