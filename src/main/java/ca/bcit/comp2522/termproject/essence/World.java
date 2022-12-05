@@ -66,7 +66,7 @@ public final class World implements LogicComponent {
   private void spawnMob(final Vec2D position) {
     final Random random = new Random();
 
-    final double spawnBoundary = 0.015;
+    final double spawnBoundary = 0.007;
     final double spawnChance = random.nextDouble(1);
 
     if (spawnChance <= spawnBoundary) {
