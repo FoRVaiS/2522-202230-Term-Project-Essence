@@ -2,7 +2,6 @@ package ca.bcit.comp2522.termproject.essence;
 
 import java.util.HashMap;
 
-import ca.bcit.comp2522.termproject.essence.entities.Camera;
 import ca.bcit.comp2522.termproject.essence.entities.PelletProjectile;
 import ca.bcit.comp2522.termproject.essence.interfaces.Collidable;
 import ca.bcit.comp2522.termproject.essence.interfaces.Controller;
@@ -26,55 +25,91 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
     SPEED
   }
 
-  /**
-   * Entity Stats.
-   */
-  protected final HashMap<Stats, Double> stats = new HashMap<>();
-
-  /**
-   * Entity position.
-   */
-  protected final Vec2D position;
-
-  /**
-   * Entity controller.
-   */
-  protected Controller controller;
-
+  private final World world;
   private final Group layer;
 
   private final Sprite sprite;
-
-  private final World world;
+  private final HashMap<Stats, Double> stats = new HashMap<>();
+  private final Vec2D position = new Vec2D();
 
   private Camera camera;
+  private Controller controller;
 
   private long cooldown = 0;
-
   private double rotation = 0;
 
   /**
    * Creates an instance to represent an object in the world.
    *
-   * @param world    reference to the world
-   * @param sprite   sprite to represent the entity
-   * @param layer    the layer the entity sprite should reside in
-   * @param position the position of the entity
+   * @param world  reference to the world
+   * @param sprite sprite to represent the entity
+   * @param layer  the layer the entity sprite should reside in
    */
-  public Entity(final World world, final Sprite sprite, final Group layer, final Vec2D position) {
+  public Entity(final World world, final Sprite sprite, final Group layer) {
     this.world = world;
     this.sprite = sprite;
     this.layer = layer;
-    this.position = position;
 
-    final Vec2D spritePosition = new Vec2D(
-        position.getX() - this.getWidth() / 2,
-        position.getY() - this.getHeight() / 2);
+    final Vec2D dimensions = new Vec2D(this.getWidth(), this.getHeight());
+    final Vec2D halfDimensions = Vec2D.divide(dimensions, new Vec2D(2, 2));
+    final Vec2D spritePosition = Vec2D.subtract(this.getPosition(), halfDimensions);
 
     this.sprite.setPosition(spritePosition);
-    this.sprite.update(0);
+  }
 
-    this.setStats();
+  /**
+   * Returns the world the entity belongs to.
+   *
+   * @return the world the entity belongs to
+   */
+  protected World getWorld() {
+    return this.world;
+  }
+
+  /**
+   * Returns the entity's sprite.
+   *
+   * @return the entity's sprite
+   */
+  protected Sprite getSprite() {
+    return this.sprite;
+  }
+
+  /**
+   * Returns the entity's stats.
+   *
+   * @return the entity's stats
+   */
+  protected HashMap<Stats, Double> getStats() {
+    return this.stats;
+  }
+
+  /**
+   * Sets an entity stat.
+   *
+   * @param key   name of the stat
+   * @param value value of the stat
+   */
+  protected void setStat(final Stats key, final double value) {
+    this.stats.put(key, value);
+  }
+
+  /**
+   * Returns the entity's position.
+   *
+   * @return a copy of the entity's position
+   */
+  public Vec2D getPosition() {
+    return Vec2D.copy(this.position);
+  }
+  /**
+   * Sets the position of the entity.
+   *
+   * @param position the new position of the entity
+   */
+  public void setPosition(final Vec2D position) {
+    this.position.setX(position.getX());
+    this.position.setY(position.getY());
   }
 
   /**
@@ -114,16 +149,18 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
   }
 
   /**
-   * Returns the world the entity belongs to.
+   * Binds a camera to the entity.
    *
-   * @return the world the entity belongs to
+   * @param camera camera to track entity
    */
-  protected World getWorld() {
-    return this.world;
+  public void setCamera(final Camera camera) {
+    this.camera = camera;
   }
 
   /**
    * Returns the entity's width.
+   *
+   * @return the width of the entity's sprite
    */
   public double getWidth() {
     return this.sprite.getView().getImage().getWidth();
@@ -131,15 +168,31 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
 
   /**
    * Returns the entity's width.
+   *
+   * @return the height of the entity's sprite
    */
   public double getHeight() {
     return this.sprite.getView().getImage().getHeight();
   }
 
   /**
-   * Sets the entity's default stats.
+   * Shoots a projectile.
+   *
+   * @param flag a placeholder value for the consumer
    */
-  protected abstract void setStats();
+  public void shoot(final double flag) {
+    final Projectile projectile = new PelletProjectile(this.getWorld());
+
+    final double velocity = 8.0;
+    final double heading = -this.rotation;
+    final Vec2D vector = new Vec2D(velocity, heading);
+
+    if (this.cooldown == 0) {
+      final int duration = 150;
+      this.spawnProjectile(projectile, vector);
+      this.cooldown = duration;
+    }
+  }
 
   /**
    * Spawns a projectile with a heading.
@@ -148,7 +201,8 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    * @param vector     projectile's movement vector
    */
   protected void spawnProjectile(final Projectile projectile, final Vec2D vector) {
-    this.getWorld().spawn(projectile, new Vec2D(this.getX(), this.getY()));
+    projectile.setPosition(this.getPosition());
+    this.getWorld().spawn(projectile);
 
     final double velocity = vector.getX();
     final double heading = vector.getY();
@@ -179,7 +233,7 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
         this.position.getY() - this.getHeight() / 2);
 
     if (this.camera != null) {
-      this.camera.update(new Vec2D(this.getX(), this.getY()));
+      this.camera.update(this.getPosition());
     }
 
     if (this.controller != null) {
@@ -191,17 +245,6 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
     }
 
     this.sprite.setPosition(newSpritePosition);
-    this.sprite.update(deltaTime);
-  }
-
-  /**
-   * Sets the position of the entity.
-   *
-   * @param position the new position of the entity
-   */
-  public void setPosition(final Vec2D position) {
-    this.position.setX(position.getX());
-    this.position.setY(position.getY());
   }
 
   /**
@@ -211,34 +254,6 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
     if (!this.layer.getChildren().contains(this.sprite.getView())) {
       this.layer.getChildren().add(this.sprite.getView());
     }
-  }
-
-  /**
-   * Shoots a projectile.
-   *
-   * @param flag a placeholder value for the consumer
-   */
-  public void shoot(final double flag) {
-    final Vec2D projectilePos = new Vec2D(this.getX(), this.getY());
-    final Projectile projectile = new PelletProjectile(this.getWorld(), this, projectilePos);
-
-    final double velocity = 8.0;
-    final double heading = -this.rotation;
-    final Vec2D vector = new Vec2D(velocity, heading);
-
-    if (this.cooldown == 0) {
-      this.spawnProjectile(projectile, vector);
-      this.cooldown = 150;
-    }
-  }
-
-  /**
-   * Binds a camera to the entity.
-   *
-   * @param camera camera to track entity
-   */
-  public void setCamera(final Camera camera) {
-    this.camera = camera;
   }
 
   /**

@@ -10,28 +10,16 @@ import javafx.scene.Group;
  */
 public class Projectile extends Entity {
   private double heading;
-  private double velocity;
 
   /**
    * Creates an instance of a projectile spawned by an other entity.
    *
-   * @param world    the world the projectile is in
-   * @param owner    entity who spawned this projectile
-   * @param sprite   projectile sprite
-   * @param layer    layer to render on
-   * @param position where the projectile should spawn
+   * @param world  the world the projectile is in
+   * @param sprite projectile sprite
+   * @param layer  layer to render on
    */
-  public Projectile(final World world, final Entity owner, final Sprite sprite, final Group layer,
-      final Vec2D position) {
-    super(world, sprite, Layers.FOREGROUND_LAYER, position);
-  }
-
-  /**
-   * Sets the stats of the entity.
-   */
-  @Override
-  protected void setStats() {
-    this.stats.put(Stats.SPEED, this.velocity);
+  public Projectile(final World world, final Sprite sprite, final Group layer) {
+    super(world, sprite, Layers.FOREGROUND_LAYER);
   }
 
   /**
@@ -49,8 +37,7 @@ public class Projectile extends Entity {
    * @param velocity the velocity of the projectiles
    */
   public void setVelocity(final double velocity) {
-    this.velocity = velocity;
-    this.setStats();
+    this.setStat(Entity.Stats.SPEED, velocity);
   }
 
   /**

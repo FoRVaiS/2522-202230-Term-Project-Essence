@@ -27,7 +27,7 @@ public class PlayerController implements Controller {
     private final ArrayList<Consumer<Vec2D>> moveFn;
 
     /**
-     * Our dynamic constructor that takes in the scene.
+     * Creates a controller to process the player's keyboard input.
      */
     public PlayerController() {
         this.moveFn = new ArrayList<>();

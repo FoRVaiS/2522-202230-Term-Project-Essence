@@ -1,5 +1,6 @@
 package ca.bcit.comp2522.termproject.essence;
 
+import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
 import javafx.scene.image.ImageView;
 
 /**
@@ -34,9 +35,8 @@ public class Chunk {
         final int tileOriginY = posY + tileY * Sprite.TILE_SIZE;
 
         final Vec2D newTilePosition = new Vec2D(tileOriginX, tileOriginY);
-        Sprite tile = Sprite.createBrickTile();
+        final Sprite tile = new BrickTileSprite();
         tile.setPosition(newTilePosition);
-        tile.update(0);
 
         tiles[tileX + tileY * Chunk.CHUNK_SIZE] = tile.getView();
       }

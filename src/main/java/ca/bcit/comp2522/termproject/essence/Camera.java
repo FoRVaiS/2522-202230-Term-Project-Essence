@@ -1,7 +1,4 @@
-package ca.bcit.comp2522.termproject.essence.entities;
-
-import ca.bcit.comp2522.termproject.essence.Layers;
-import ca.bcit.comp2522.termproject.essence.Vec2D;
+package ca.bcit.comp2522.termproject.essence;
 
 /**
  * A camera used to manipulate layers to simulate camera movement.
