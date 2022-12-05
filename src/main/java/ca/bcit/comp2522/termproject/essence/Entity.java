@@ -63,11 +63,7 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
     this.team = team;
     this.layer = layer;
 
-    final Vec2D dimensions = new Vec2D(this.getWidth(), this.getHeight());
-    final Vec2D halfDimensions = Vec2D.divide(dimensions, new Vec2D(2, 2));
-    final Vec2D spritePosition = Vec2D.subtract(this.getPosition(), halfDimensions);
-
-    this.sprite.setPosition(spritePosition);
+    this.sprite.setPosition(this.getCentre());
   }
 
   /**
@@ -199,6 +195,17 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
   }
 
   /**
+   * Returns the vector for the centre of the entity.
+   *
+   * @return the centre of the entity
+   */
+  public Vec2D getCentre() {
+    return new Vec2D(
+        this.position.getX() - this.getWidth() / 2,
+        this.position.getY() - this.getHeight() / 2);
+  }
+
+  /**
    * Shoots a projectile.
    *
    * @param flag a placeholder value for the consumer
@@ -250,10 +257,6 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
    */
   @Override
   public void update(final long deltaTime) {
-    final Vec2D newSpritePosition = new Vec2D(
-        this.position.getX() - this.getWidth() / 2,
-        this.position.getY() - this.getHeight() / 2);
-
     if (this.camera != null) {
       this.camera.update(this.getPosition());
     }
@@ -266,7 +269,7 @@ public abstract class Entity implements LogicComponent, Possessable, Collidable<
       this.cooldown = Math.max(0, this.cooldown - deltaTime);
     }
 
-    this.sprite.setPosition(newSpritePosition);
+    this.sprite.setPosition(this.getCentre());
   }
 
   /**
