@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import ca.bcit.comp2522.termproject.essence.HUD.EssenceBar;
 import ca.bcit.comp2522.termproject.essence.entities.Camera;
 import ca.bcit.comp2522.termproject.essence.entities.Gunner;
 import ca.bcit.comp2522.termproject.essence.entities.Hunter;
 import ca.bcit.comp2522.termproject.essence.entities.Player;
 import ca.bcit.comp2522.termproject.essence.interfaces.LogicComponent;
 import ca.bcit.comp2522.termproject.essence.sprites.BrickTileSprite;
+
 
 /**
  * Manages objects in the world.
@@ -22,6 +24,7 @@ public class World implements LogicComponent {
   private final HashMap<Integer, Chunk> chunks = new HashMap<>();
   private final ArrayList<LogicComponent> logicalChildren = new ArrayList<>();
   private final ArrayList<Entity> entities = new ArrayList<>();
+  private final EssenceBar essenceBar = new EssenceBar();
 
   /**
    * Creates an instance of the world.
@@ -33,6 +36,8 @@ public class World implements LogicComponent {
 
     this.spawn(player, new Vec2D());
     this.update(0);
+
+    this.essenceBar.render();
   }
 
   /**
@@ -126,6 +131,7 @@ public class World implements LogicComponent {
     }
   }
 
+  private int counter = 0;
   /**
    * Updates all logical components in the world.
    *
@@ -133,6 +139,12 @@ public class World implements LogicComponent {
    */
   @Override
   public void update(final long deltaTime) {
+    counter += deltaTime;
+    if (counter > 1000) {
+      counter = 0;
+      this.essenceBar.increaseProgress(1, 2000);
+    }
+
     final Entity player = Player.getPlayer(this);
 
     final Entity[] localEntities = this.entities.toArray(Entity[]::new);

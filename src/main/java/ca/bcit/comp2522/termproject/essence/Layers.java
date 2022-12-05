@@ -18,5 +18,8 @@ public final class Layers {
   /** The foreground layer containing only the player of the scene. */
   public static final Group PLAYER_LAYER = new Group();
 
+  /** The UI layer containing only the user interface of the scene. */
+  public static final Group UI_LAYER = new Group();
+
   private Layers() { }
 }

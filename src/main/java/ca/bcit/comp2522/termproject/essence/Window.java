@@ -2,12 +2,16 @@ package ca.bcit.comp2522.termproject.essence;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * JavaFX window for Essence.
@@ -34,7 +38,8 @@ public class Window extends Application {
         stage.setScene(new Scene(new Group(
                 Layers.BACKGROUND_LAYER,
                 Layers.FOREGROUND_LAYER,
-                Layers.PLAYER_LAYER)));
+                Layers.PLAYER_LAYER,
+                Layers.UI_LAYER)));
         stage.setFullScreen(true);
         stage.setFullScreenExitKeyCombination(KeyCombination.keyCombination(CUSTOM_STRING_CODE));
         stage.show();
@@ -44,7 +49,7 @@ public class Window extends Application {
             } else if (event.getCode().equals(KeyCode.O)) {
                 stage.setHeight(WINDOW_HEIGHT);
                 stage.setWidth(WINDOW_WIDTH);
-                stage.centerOnScreen();
+                // stage.centerOnScreen();
             }
         });
 
